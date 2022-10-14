@@ -16,7 +16,7 @@ public class Tariff extends BaseEntity {
     private String name;
 
     private Integer minutes;
-    
+
     private Integer megabytes;
 
 }
