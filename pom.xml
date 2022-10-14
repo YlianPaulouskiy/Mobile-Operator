@@ -7,6 +7,7 @@
         <module>app</module>
         <module>entity</module>
         <module>repository</module>
+        <module>service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -38,6 +39,14 @@
         </dependency>
 
 <!--        jUnitTesting -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--        starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

@@ -21,6 +21,6 @@ public class Tariff extends BaseEntity {
     //---------------------------------------------------------------------------------
 
     @OneToOne(mappedBy = "tariff", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Phone client;
+    private Phone phone;
 
 }
