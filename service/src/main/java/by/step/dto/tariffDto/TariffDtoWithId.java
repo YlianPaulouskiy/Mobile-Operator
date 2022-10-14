@@ -1,11 +1,11 @@
-package by.step.dto.phoneDto;
+package by.step.dto.tariffDto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class PhoneDtoWithId extends PhoneDto {
+public class TariffDtoWithId extends TariffDto {
 
     private Long id;
 
