@@ -9,7 +9,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+@Mapper(
+//        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        componentModel = "spring"
+)
 public interface PhoneMapper {
 
     Phone convert(PhoneDto phoneDto);
@@ -22,7 +25,7 @@ public interface PhoneMapper {
 
     PhoneDtoWithId convertToDtoWithId(Phone phone);
 
-    PhoneClientDto convertToDtoWithPhones(Phone phone);
+    PhoneClientDto convertToDtoWithClient(Phone phone);
 
     @AfterMapping
     default void linkTariff(@MappingTarget Phone phone) {
@@ -33,8 +36,10 @@ public interface PhoneMapper {
 
     @AfterMapping
     default void linkPClient(@MappingTarget Phone phone) {
-        if (phone != null && phone.getClient() != null) {
-            phone.getClient().getPhoneList().add(phone);
+        if (phone != null && phone.getClient() != null && phone.getTariff() != null) {
+            if (phone.getClient().getPhoneList() != null) {
+                phone.getClient().getPhoneList().add(phone);
+            }
         }
     }
 

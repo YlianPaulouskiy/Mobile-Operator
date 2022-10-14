@@ -76,7 +76,7 @@ public class ClientMapperTest {
 
     @Test
     @DisplayName("Convert Client to ClientPhoneDto Test")
-    public void convertToClientPhoneDto() {
+    public void convertToClientPhoneDtoTest() {
         clientPhoneDto = clientMapper.convertToDtoWithPhone(client);
         assertThat(client.getName()).isEqualTo(clientPhoneDto.getName());
         assertThat(client.getLastName()).isEqualTo(clientPhoneDto.getLastName());
@@ -90,7 +90,7 @@ public class ClientMapperTest {
 
     @Test
     @DisplayName("Convert to Client from ClientDto")
-    public void convertToClientFromDto() {
+    public void convertToClientFromDtoTest() {
         clientDto = clientMapper.convertToDto(client);
         client = clientMapper.convert(clientDto);
         assertThat(clientDto.getName()).isEqualTo(client.getName());
@@ -100,12 +100,13 @@ public class ClientMapperTest {
 
     @Test
     @DisplayName("Convert to Client from ClientDtoWithId")
-    public void convertToClientFromDtoWithId() {
+    public void convertToClientFromDtoWithIdTest() {
         clientDtoWithId = clientMapper.convertToDtoWithId(client);
         client = clientMapper.convert(clientDtoWithId);
         assertThat(clientDtoWithId.getName()).isEqualTo(client.getName());
         assertThat(clientDtoWithId.getLastName()).isEqualTo(client.getLastName());
         assertThat(clientDtoWithId.getPatronymic()).isEqualTo(client.getPatronymic());
+        assertThat(clientDtoWithId.getId()).isEqualTo(client.getId());
         assertThat(clientDtoWithId.getDateCreation()).isEqualTo(new SimpleDateFormat().format(client.getDateCreation()));
         assertThat(clientDtoWithId.getLastModified()).isEqualTo(new SimpleDateFormat().format(client.getLastModified()));
         assertThat(clientDtoWithId.getVersion()).isEqualTo(client.getVersion());
@@ -113,12 +114,13 @@ public class ClientMapperTest {
 
     @Test
     @DisplayName("Convert to Client from ClientPhoneDto")
-    public void convertToClientFromClientPhoneDto() {
+    public void convertToClientFromClientPhoneDtoTest() {
         clientPhoneDto = clientMapper.convertToDtoWithPhone(client);
         client = clientMapper.convert(clientPhoneDto);
         assertThat(clientPhoneDto.getName()).isEqualTo(client.getName());
         assertThat(clientPhoneDto.getLastName()).isEqualTo(client.getLastName());
         assertThat(clientPhoneDto.getPatronymic()).isEqualTo(client.getPatronymic());
+        assertThat(clientPhoneDto.getId()).isEqualTo(client.getId());
         assertThat(clientPhoneDto.getDateCreation()).isEqualTo(new SimpleDateFormat().format(client.getDateCreation()));
         assertThat(clientPhoneDto.getLastModified()).isEqualTo(new SimpleDateFormat().format(client.getLastModified()));
         assertThat(clientPhoneDto.getVersion()).isEqualTo(client.getVersion());
