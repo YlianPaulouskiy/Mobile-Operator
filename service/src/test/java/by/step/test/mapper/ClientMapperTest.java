@@ -29,11 +29,8 @@ public class ClientMapperTest {
     private final ClientMapper clientMapper = new ClientMapperImpl();
 
     private Client client = new Client();
-
     private ClientDto clientDto;
-
     private ClientDtoWithId clientDtoWithId;
-
     private ClientPhoneDto clientPhoneDto;
 
     @Before
