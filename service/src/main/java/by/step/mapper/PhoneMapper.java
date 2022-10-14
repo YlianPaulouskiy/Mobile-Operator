@@ -4,9 +4,12 @@ import by.step.dto.phoneDto.PhoneClientDto;
 import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.phoneDto.PhoneDtoWithId;
 import by.step.entity.Phone;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface PhoneMapper {
 
     Phone convert(PhoneDto phoneDto);
@@ -20,5 +23,19 @@ public interface PhoneMapper {
     PhoneDtoWithId convertToDtoWithId(Phone phone);
 
     PhoneClientDto convertToDtoWithPhones(Phone phone);
+
+    @AfterMapping
+    default void linkTariff(@MappingTarget Phone phone) {
+        if (phone != null && phone.getTariff() != null) {
+            phone.getTariff().setPhone(phone);
+        }
+    }
+
+    @AfterMapping
+    default void linkPClient(@MappingTarget Phone phone) {
+        if (phone != null && phone.getClient() != null) {
+            phone.getClient().getPhoneList().add(phone);
+        }
+    }
 
 }

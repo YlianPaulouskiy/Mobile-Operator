@@ -26,11 +26,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ClientMapperTest {
 
     @Mock
-    private ClientMapper clientMapper = new ClientMapperImpl();
+    private final ClientMapper clientMapper = new ClientMapperImpl();
 
     private Client client = new Client();
 
-    private ClientDto clientDto = new ClientDto();
+    private ClientDto clientDto;
 
     private ClientDtoWithId clientDtoWithId;
 

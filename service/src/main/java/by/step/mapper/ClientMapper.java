@@ -4,9 +4,12 @@ import by.step.dto.clientDto.ClientDto;
 import by.step.dto.clientDto.ClientDtoWithId;
 import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.entity.Client;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface ClientMapper {
 
     Client convert(ClientDto clientDto);
@@ -21,4 +24,10 @@ public interface ClientMapper {
 
     ClientPhoneDto convertToDtoWithPhone(Client client);
 
+    @AfterMapping
+    default void linkPhone(@MappingTarget Client client) {
+        if (client != null && client.getPhoneList() != null) {
+            client.getPhoneList().forEach(phone -> phone.setClient(client));
+        }
+    }
 }
