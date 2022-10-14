@@ -6,6 +6,7 @@
     <modules>
         <module>app</module>
         <module>entity</module>
+        <module>repository</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
