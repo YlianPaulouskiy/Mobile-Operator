@@ -4,8 +4,7 @@ import by.step.entity.parent.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -20,5 +19,14 @@ public class Phone extends BaseEntity {
 
     @Column(name = "mobile", nullable = false, length = 7)
     private String mobile;
+
+    //---------------------------------------------------------------------------------
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "tariff_id", referencedColumnName = "id")
+    private Tariff tariff;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Client client;
 
 }

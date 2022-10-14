@@ -4,8 +4,7 @@ import by.step.entity.parent.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -18,5 +17,10 @@ public class Tariff extends BaseEntity {
     private Integer minutes;
 
     private Integer megabytes;
+
+    //---------------------------------------------------------------------------------
+
+    @OneToOne(mappedBy = "tariff", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Phone client;
 
 }
