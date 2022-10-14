@@ -5,6 +5,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>app</module>
+        <module>entity</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -20,25 +21,33 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
-    <dependencies>
 
+    <dependencies>
+<!--        Starter spring boot-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
+<!--        Lombok to reduce code-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
 
+<!--        jUnitTesting -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
+<!--        connector to Database -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
