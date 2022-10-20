@@ -2,6 +2,7 @@ package by.step.test.mapper;
 
 import by.step.dto.clientDto.ClientDto;
 import by.step.dto.clientDto.ClientDtoWithId;
+import by.step.dto.clientDto.ClientDtoWithoutId;
 import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.entity.Client;
 import by.step.entity.Phone;
@@ -32,6 +33,7 @@ public class ClientMapperTest {
     private ClientDto clientDto;
     private ClientDtoWithId clientDtoWithId;
     private ClientPhoneDto clientPhoneDto;
+    private ClientDtoWithoutId clientDtoWithoutId;
 
     @Before
     public void setClient() {
@@ -86,7 +88,7 @@ public class ClientMapperTest {
     }
 
     @Test
-    @DisplayName("Convert to Client from ClientDto")
+    @DisplayName("Convert to Client from ClientDto Test")
     public void convertToClientFromDtoTest() {
         clientDto = clientMapper.convertToDto(client);
         client = clientMapper.convert(clientDto);
@@ -96,7 +98,7 @@ public class ClientMapperTest {
     }
 
     @Test
-    @DisplayName("Convert to Client from ClientDtoWithId")
+    @DisplayName("Convert to Client from ClientDtoWithId Test")
     public void convertToClientFromDtoWithIdTest() {
         clientDtoWithId = clientMapper.convertToDtoWithId(client);
         client = clientMapper.convert(clientDtoWithId);
@@ -110,7 +112,7 @@ public class ClientMapperTest {
     }
 
     @Test
-    @DisplayName("Convert to Client from ClientPhoneDto")
+    @DisplayName("Convert to Client from ClientPhoneDto Test")
     public void convertToClientFromClientPhoneDtoTest() {
         clientPhoneDto = clientMapper.convertToDtoWithPhone(client);
         client = clientMapper.convert(clientPhoneDto);
@@ -122,6 +124,27 @@ public class ClientMapperTest {
         assertThat(clientPhoneDto.getLastModified()).isEqualTo(new SimpleDateFormat().format(client.getLastModified()));
         assertThat(clientPhoneDto.getVersion()).isEqualTo(client.getVersion());
         assertThat(clientPhoneDto.getPhoneList().size()).isEqualTo(client.getPhoneList().size());
+    }
+
+    @Test
+    @DisplayName("Convert Client to ClientDtoWithoutId Test")
+    public void convertToClientDtoWithoutIdTest() {
+        clientDtoWithoutId = clientMapper.convertToDtoWithoutId(client);
+        assertThat(client.getName()).isEqualTo(clientDtoWithoutId.getName());
+        assertThat(client.getLastName()).isEqualTo(clientDtoWithoutId.getLastName());
+        assertThat(client.getPatronymic()).isEqualTo(clientDtoWithoutId.getPatronymic());
+        assertThat(client.getPhoneList().size()).isEqualTo(clientDtoWithoutId.getPhoneList().size());
+    }
+
+    @Test
+    @DisplayName("Convert to Client from ClientDtoWithoutId Test")
+    public void convertToClientFromDtoWithoutIdTest() {
+        clientDtoWithoutId = clientMapper.convertToDtoWithoutId(client);
+        client = clientMapper.convert(clientDtoWithoutId);
+        assertThat(clientDtoWithoutId.getName()).isEqualTo(client.getName());
+        assertThat(clientDtoWithoutId.getLastName()).isEqualTo(client.getLastName());
+        assertThat(clientDtoWithoutId.getPatronymic()).isEqualTo(client.getPatronymic());
+        assertThat(clientDtoWithoutId.getPhoneList().size()).isEqualTo(client.getPhoneList().size());
     }
 
 }

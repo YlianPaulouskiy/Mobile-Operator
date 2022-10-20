@@ -3,6 +3,7 @@ package by.step.test.mapper;
 import by.step.dto.phoneDto.PhoneClientDto;
 import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.phoneDto.PhoneDtoWithId;
+import by.step.dto.phoneDto.PhoneDtoWithoutId;
 import by.step.entity.Client;
 import by.step.entity.Phone;
 import by.step.entity.Tariff;
@@ -30,6 +31,7 @@ public class PhoneMapperTest {
     private PhoneDto phoneDto;
     private PhoneDtoWithId phoneDtoWithId;
     private PhoneClientDto phoneClientDto;
+    private PhoneDtoWithoutId phoneDtoWithoutId;
 
     @Before
     public void setPhone() {
@@ -45,7 +47,7 @@ public class PhoneMapperTest {
     }
 
     @Test
-    @DisplayName("Convert Phone to PhoneDto")
+    @DisplayName("Convert Phone to PhoneDto Test")
     public void convertToPhoneDtoTest() {
         phoneDto = phoneMapper.convertToDto(phone);
         assertThat(phone.getCountryCode()).isEqualTo(phoneDto.getCountryCode());
@@ -54,7 +56,7 @@ public class PhoneMapperTest {
     }
 
     @Test
-    @DisplayName("Convert Phone to PhoneDtoWithId")
+    @DisplayName("Convert Phone to PhoneDtoWithId Test")
     public void convertToPhoneDtoWithIdTest() {
         phoneDtoWithId = phoneMapper.convertToDtoWithId(phone);
         assertThat(phone.getCountryCode()).isEqualTo(phoneDtoWithId.getCountryCode());
@@ -67,7 +69,7 @@ public class PhoneMapperTest {
     }
 
     @Test
-    @DisplayName("Convert Phone to PhoneClientDto")
+    @DisplayName("Convert Phone to PhoneClientDto Test")
     public void convertToPhoneClientDtoTest() {
         phoneClientDto = phoneMapper.convertToDtoWithClient(phone);
         assertThat(phone.getCountryCode()).isEqualTo(phoneClientDto.getCountryCode());
@@ -82,7 +84,7 @@ public class PhoneMapperTest {
     }
 
     @Test
-    @DisplayName("Convert from PhoneDto to Phone")
+    @DisplayName("Convert from PhoneDto to Phone Test")
     public void convertFromPhoneDtoTest() {
         phoneDto = phoneMapper.convertToDto(phone);
         phone = phoneMapper.convert(phoneDto);
@@ -92,7 +94,7 @@ public class PhoneMapperTest {
     }
 
     @Test
-    @DisplayName("Convert from PhoneDtoWithId to Phone")
+    @DisplayName("Convert from PhoneDtoWithId to Phone Test")
     public void convertFromPhoneDtoWithIdTest() {
         phoneDtoWithId = phoneMapper.convertToDtoWithId(phone);
         phone = phoneMapper.convert(phoneDtoWithId);
@@ -106,7 +108,7 @@ public class PhoneMapperTest {
     }
 
     @Test
-    @DisplayName("Convert from PhoneClientDto to Phone")
+    @DisplayName("Convert from PhoneClientDto to Phone Test")
     public void convertFromPhoneClientDtoTest() {
         phoneClientDto = phoneMapper.convertToDtoWithClient(phone);
         phone = phoneMapper.convert(phoneClientDto);
@@ -117,6 +119,29 @@ public class PhoneMapperTest {
         assertThat(phoneClientDto.getDateCreation()).isEqualTo(new SimpleDateFormat().format(phone.getDateCreation()));
         assertThat(phoneClientDto.getLastModified()).isEqualTo(new SimpleDateFormat().format(phone.getLastModified()));
         assertThat(phoneClientDto.getVersion()).isEqualTo(phone.getVersion());
+        assertThat(phone.getClient()).isNotNull();
+        assertThat(phone.getTariff()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Convert Phone to PhoneDtoWithoutId Test")
+    public void convertToClientDtoWithoutIdTest() {
+        phoneDtoWithoutId = phoneMapper.convertToDtoWithoutId(phone);
+        assertThat(phone.getCountryCode()).isEqualTo(phoneDtoWithoutId.getCountryCode());
+        assertThat(phone.getOperatorCode()).isEqualTo(phoneDtoWithoutId.getOperatorCode());
+        assertThat(phone.getMobile()).isEqualTo(phoneDtoWithoutId.getMobile());
+        assertThat(phoneDtoWithoutId.getTariff()).isNotNull();
+        assertThat(phoneDtoWithoutId.getClient()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Convert to Client from ClientDtoWithoutId Test")
+    public void convertToClientFromDtoWithoutIdTest() {
+        phoneDtoWithoutId =phoneMapper.convertToDtoWithoutId(phone);
+        phone = phoneMapper.convert(phoneDtoWithoutId);
+        assertThat(phoneDtoWithoutId.getCountryCode()).isEqualTo(phone.getCountryCode());
+        assertThat(phoneDtoWithoutId.getOperatorCode()).isEqualTo(phone.getOperatorCode());
+        assertThat(phoneDtoWithoutId.getMobile()).isEqualTo(phone.getMobile());
         assertThat(phone.getClient()).isNotNull();
         assertThat(phone.getTariff()).isNotNull();
     }

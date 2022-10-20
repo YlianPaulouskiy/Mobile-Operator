@@ -17,7 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class TariffMapperTest {
@@ -39,7 +42,9 @@ public class TariffMapperTest {
         tariff.setDateCreation(new Date());
         tariff.setLastModified(new Date());
         tariff.setVersion(1L);
-        tariff.setPhone(new Phone());
+        List<Phone> phoneList = new ArrayList<>();
+        Collections.addAll(phoneList, new Phone(), new Phone());
+        tariff.setPhoneList(phoneList);
     }
 
     @Test
@@ -75,7 +80,7 @@ public class TariffMapperTest {
         assertThat(new SimpleDateFormat().format(tariff.getDateCreation())).isEqualTo(tariffPhoneDto.getDateCreation());
         assertThat(new SimpleDateFormat().format(tariff.getLastModified())).isEqualTo(tariffPhoneDto.getLastModified());
         assertThat(tariff.getVersion()).isEqualTo(tariffPhoneDto.getVersion());
-        assertThat(tariffPhoneDto.getPhone()).isNotNull();
+        assertThat(tariffPhoneDto.getPhoneList()).isNotNull();
     }
 
     @Test
@@ -114,7 +119,7 @@ public class TariffMapperTest {
         assertThat(tariffPhoneDto.getDateCreation()).isEqualTo(new SimpleDateFormat().format(tariff.getDateCreation()));
         assertThat(tariffPhoneDto.getLastModified()).isEqualTo(new SimpleDateFormat().format(tariff.getLastModified()));
         assertThat(tariffPhoneDto.getVersion()).isEqualTo(tariff.getVersion());
-        assertThat(tariff.getPhone()).isNotNull();
+        assertThat(tariff.getPhoneList()).isNotNull();
     }
 
 }

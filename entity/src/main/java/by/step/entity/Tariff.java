@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -18,9 +19,11 @@ public class Tariff extends BaseEntity {
 
     private Integer megabytes;
 
+    private Double price;
+
     //---------------------------------------------------------------------------------
 
-    @OneToOne(mappedBy = "tariff", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Phone phone;
+    @OneToMany(mappedBy = "tariff", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Phone> phoneList;
 
 }

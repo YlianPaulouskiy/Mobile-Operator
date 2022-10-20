@@ -11,4 +11,5 @@ public class TariffDto {
 
     private Integer megabytes;
 
+    private Double price;
 }

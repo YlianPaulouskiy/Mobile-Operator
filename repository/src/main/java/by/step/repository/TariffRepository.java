@@ -6,4 +6,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TariffRepository extends JpaRepository<Tariff, Long> {
+
+    Tariff findTariffByPriceBetweenAndMinutesBetweenAndMegabytesBetween(
+            Double priceFrom, Double priceTo,
+            Integer minutesFrom, Integer minutesTo,
+            Integer megabytesFrom, Integer megabytesTo
+    );
+
 }

@@ -22,8 +22,7 @@ public class Phone extends BaseEntity {
 
     //---------------------------------------------------------------------------------
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "tariff_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Tariff tariff;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
