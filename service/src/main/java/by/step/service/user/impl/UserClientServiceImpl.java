@@ -3,7 +3,7 @@ package by.step.service.user.impl;
 import by.step.dto.clientDto.ClientDtoWithoutId;
 import by.step.mapper.ClientMapper;
 import by.step.repository.ClientRepository;
-import by.step.service.user.ClientService;
+import by.step.service.user.UserClientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class ClientServiceImpl implements ClientService {
+public class UserClientServiceImpl implements UserClientService {
 
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;

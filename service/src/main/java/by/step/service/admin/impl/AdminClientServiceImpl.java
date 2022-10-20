@@ -1,10 +1,12 @@
 package by.step.service.admin.impl;
 
 import by.step.dto.clientDto.ClientPhoneDto;
-import by.step.entity.Client;
+import by.step.dto.phoneDto.PhoneDto;
+import by.step.entity.Phone;
 import by.step.mapper.ClientMapper;
+import by.step.mapper.PhoneMapper;
 import by.step.repository.ClientRepository;
-import by.step.service.admin.ClientService;
+import by.step.service.admin.AdminClientService;
 import by.step.service.exception.EntityNotCorrectException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,11 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class ClientServiceImpl implements ClientService {
+public class AdminClientServiceImpl implements AdminClientService {
 
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
+    private final PhoneMapper phoneMapper;
 
     @Override
     public ClientPhoneDto findOneById(Long id) {
@@ -37,8 +40,8 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientPhoneDto save(ClientPhoneDto entity) {
         if (entity.getName().length() == 0 ||
-        entity.getLastName().length() == 0 ||
-        entity.getPatronymic().length() == 0) {
+                entity.getLastName().length() == 0 ||
+                entity.getPatronymic().length() == 0) {
             throw new EntityNotCorrectException("Check input sources.");
         } else {
             return entity;
@@ -51,6 +54,24 @@ public class ClientServiceImpl implements ClientService {
             clientRepository.deleteById(id);
         } else {
             throw new EntityNotFoundException("Client id# " + id + " not found.");
+        }
+    }
+
+    @Override
+    public ClientPhoneDto addPhoneToClient(Long clientId, PhoneDto phoneDto) {
+        if (clientRepository.existsById(clientId) && phoneDto != null) {
+            if (phoneDto.getCountryCode().length() > 2
+                    || phoneDto.getOperatorCode().length() > 2
+                    || phoneDto.getMobile().length() > 5) {
+                Phone phone = phoneMapper.convert(phoneDto);
+                ClientPhoneDto clientPhoneDto = findOneById(clientId);
+                clientPhoneDto.getPhoneList().add(phoneMapper.convertToDtoWithClient(phone));
+                return clientPhoneDto;
+            } else {
+                throw new EntityNotCorrectException("Check input sources.");
+            }
+        } else {
+            throw new EntityNotFoundException("Client id# " + clientId + " not found.");
         }
     }
 

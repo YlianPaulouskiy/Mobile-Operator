@@ -1,12 +1,12 @@
-package by.step.service.user;
+package by.step.service.admin;
 
 import by.step.dto.tariffDto.TariffDto;
-import by.step.dto.tariffDto.TariffDtoWithoutId;
-import by.step.service.parent.BaseUserService;
+import by.step.dto.tariffDto.TariffPhoneDto;
+import by.step.service.parent.BaseAdminService;
 
 import java.util.List;
 
-public interface TariffService extends BaseUserService<TariffDtoWithoutId> {
+public interface AdminTariffService extends BaseAdminService<TariffPhoneDto> {
 
     List<TariffDto> sortTariffByPrice();
 
@@ -15,4 +15,5 @@ public interface TariffService extends BaseUserService<TariffDtoWithoutId> {
             Integer minutesFrom, Integer minutesTo,
             Integer megabytesFrom, Integer megabytesTo
     );
+
 }

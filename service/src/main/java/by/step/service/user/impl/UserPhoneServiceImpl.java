@@ -3,7 +3,7 @@ package by.step.service.user.impl;
 import by.step.dto.phoneDto.PhoneDtoWithoutId;
 import by.step.mapper.PhoneMapper;
 import by.step.repository.PhoneRepository;
-import by.step.service.user.PhoneService;
+import by.step.service.user.UserPhoneService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class PhoneServiceImpl implements PhoneService {
+public class UserPhoneServiceImpl implements UserPhoneService {
 
     private final PhoneRepository phoneRepository;
     private final PhoneMapper phoneMapper;

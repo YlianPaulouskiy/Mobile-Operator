@@ -4,7 +4,7 @@ import by.step.dto.tariffDto.TariffDto;
 import by.step.dto.tariffDto.TariffDtoWithoutId;
 import by.step.mapper.TariffMapper;
 import by.step.repository.TariffRepository;
-import by.step.service.user.TariffService;
+import by.step.service.user.UserTariffService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class TariffServiceImpl implements TariffService {
+public class UserTariffServiceImpl implements UserTariffService {
 
     private final TariffRepository tariffRepository;
     private final TariffMapper tariffMapper;
