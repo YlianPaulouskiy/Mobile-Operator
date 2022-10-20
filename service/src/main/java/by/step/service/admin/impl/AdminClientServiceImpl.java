@@ -1,16 +1,19 @@
 package by.step.service.admin.impl;
 
 import by.step.dto.clientDto.ClientPhoneDto;
+import by.step.dto.phoneDto.PhoneClientDto;
 import by.step.dto.phoneDto.PhoneDto;
 import by.step.entity.Phone;
 import by.step.mapper.ClientMapper;
 import by.step.mapper.PhoneMapper;
 import by.step.repository.ClientRepository;
+import by.step.repository.PhoneRepository;
 import by.step.service.admin.AdminClientService;
 import by.step.service.exception.EntityNotCorrectException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class AdminClientServiceImpl implements AdminClientService {
 
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
+    private final PhoneRepository phoneRepository;
     private final PhoneMapper phoneMapper;
 
     @Override
@@ -72,6 +76,23 @@ public class AdminClientServiceImpl implements AdminClientService {
             }
         } else {
             throw new EntityNotFoundException("Client id# " + clientId + " not found.");
+        }
+    }
+
+    @Override
+    public ClientPhoneDto addPhoneToClient(Long clientId, Long phoneId) {
+        if (clientRepository.existsById(clientId) && phoneRepository.existsById(phoneId)) {
+            ClientPhoneDto clientPhoneDto = findOneById(clientId);
+            PhoneClientDto phoneClientDto =phoneMapper
+                    .convertToDtoWithClient(phoneRepository.findById(phoneId).get());
+            if (!clientPhoneDto.getPhoneList().contains(phoneClientDto)) {
+                clientPhoneDto.getPhoneList().add(phoneClientDto);
+            } else {
+                throw new EntityExistsException("Client already using this phone.");
+            }
+            return clientPhoneDto;
+        } else {
+            throw new EntityNotFoundException("Client id " + clientId + " or phone id " + phoneId + " doesn't exist.");
         }
     }
 

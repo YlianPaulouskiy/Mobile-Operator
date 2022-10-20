@@ -10,4 +10,6 @@ public interface AdminClientService extends BaseAdminService<ClientPhoneDto> {
 
     ClientPhoneDto addPhoneToClient(Long clientId, PhoneDto phoneDto);
 
+    ClientPhoneDto addPhoneToClient(Long clientId, Long phoneId);
+
 }
