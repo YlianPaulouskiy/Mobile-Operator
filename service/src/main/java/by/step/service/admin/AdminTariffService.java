@@ -1,6 +1,5 @@
 package by.step.service.admin;
 
-import by.step.dto.tariffDto.TariffDto;
 import by.step.dto.tariffDto.TariffPhoneDto;
 import by.step.service.parent.BaseAdminService;
 
@@ -8,9 +7,9 @@ import java.util.List;
 
 public interface AdminTariffService extends BaseAdminService<TariffPhoneDto> {
 
-    List<TariffDto> sortTariffByPrice();
+    List<TariffPhoneDto> sortTariffByPrice();
 
-    TariffDto findByPriceAndMinutesAndMegabytes(
+    TariffPhoneDto findByPriceAndMinutesAndMegabytes(
             Double priceFrom, Double priceTo,
             Integer minutesFrom, Integer minutesTo,
             Integer megabytesFrom, Integer megabytesTo

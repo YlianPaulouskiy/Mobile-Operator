@@ -40,15 +40,24 @@ public class AdminClientServiceImpl implements AdminClientService {
         return clientMapper.convertToClientPhoneDtoList(clientRepository.findAll());
     }
 
-    // FIXME: 20.10.2022 check dateCreation and lastModified
+    // FIXME: 20.10.2022 check dateCreation and lastModified не лучше ли передать ClientDto ?
     @Override
     public ClientPhoneDto save(ClientPhoneDto entity) {
-        if (entity.getName().length() == 0 ||
-                entity.getLastName().length() == 0 ||
-                entity.getPatronymic().length() == 0) {
-            throw new EntityNotCorrectException("Check input sources.");
+        if (clientRepository.existsByNameAndLastNameAndPatronymic(
+                entity.getName(), entity.getLastName(), entity.getPatronymic())) {
+            if (entity.getName().length() == 0
+                    || entity.getLastName().length() == 0
+                    || entity.getPatronymic().length() == 0) {
+                throw new EntityNotCorrectException("Check input sources.");
+            } else {
+                return clientMapper.convertToDtoWithPhone(
+                        clientRepository.save(
+                                clientMapper.convert(entity)
+                        )
+                );
+            }
         } else {
-            return entity;
+            throw new EntityExistsException("Client already exists.");
         }
     }
 
@@ -61,16 +70,24 @@ public class AdminClientServiceImpl implements AdminClientService {
         }
     }
 
+    // FIXME: 20.10.2022 ПРОВЕРИТЬ!!!
     @Override
     public ClientPhoneDto addPhoneToClient(Long clientId, PhoneDto phoneDto) {
         if (clientRepository.existsById(clientId) && phoneDto != null) {
-            if (phoneDto.getCountryCode().length() > 2
-                    || phoneDto.getOperatorCode().length() > 2
-                    || phoneDto.getMobile().length() > 5) {
-                Phone phone = phoneMapper.convert(phoneDto);
-                ClientPhoneDto clientPhoneDto = findOneById(clientId);
-                clientPhoneDto.getPhoneList().add(phoneMapper.convertToDtoWithClient(phone));
-                return clientPhoneDto;
+            if (phoneDto.getCountryCode().length() >= 2
+                    || phoneDto.getOperatorCode().length() >= 2
+                    || phoneDto.getMobile().length() >= 5) {
+                // если существует то просто связать, иначе сохранить и связать
+                if (phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
+                        phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {
+                    Phone phone = phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
+                            phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile());
+                    return addPhoneToClient(clientId, phone.getId());
+                } else {
+                    Phone phone = phoneMapper.convert(phoneDto);
+                    phone = phoneRepository.save(phone);
+                    return addPhoneToClient(clientId, phone.getId());
+                }
             } else {
                 throw new EntityNotCorrectException("Check input sources.");
             }
@@ -83,10 +100,15 @@ public class AdminClientServiceImpl implements AdminClientService {
     public ClientPhoneDto addPhoneToClient(Long clientId, Long phoneId) {
         if (clientRepository.existsById(clientId) && phoneRepository.existsById(phoneId)) {
             ClientPhoneDto clientPhoneDto = findOneById(clientId);
-            PhoneClientDto phoneClientDto =phoneMapper
+            PhoneClientDto phoneClientDto = phoneMapper
                     .convertToDtoWithClient(phoneRepository.findById(phoneId).get());
-            if (!clientPhoneDto.getPhoneList().contains(phoneClientDto)) {
+            if (clientPhoneDto.getPhoneList() != null
+                    && !clientPhoneDto.getPhoneList().contains(phoneClientDto)) {
                 clientPhoneDto.getPhoneList().add(phoneClientDto);
+                phoneClientDto.setClient(clientPhoneDto);
+                //засэйвить в базу
+                clientRepository.save(clientMapper.convert(clientPhoneDto));
+                phoneRepository.save(phoneMapper.convert(phoneClientDto));
             } else {
                 throw new EntityExistsException("Client already using this phone.");
             }
@@ -101,3 +123,4 @@ public class AdminClientServiceImpl implements AdminClientService {
         return clientRepository.count();
     }
 }
+

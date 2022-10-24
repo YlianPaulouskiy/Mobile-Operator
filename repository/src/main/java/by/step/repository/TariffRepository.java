@@ -13,4 +13,6 @@ public interface TariffRepository extends JpaRepository<Tariff, Long> {
             Integer megabytesFrom, Integer megabytesTo
     );
 
+    Boolean existsByPriceAndMinutesAndMegabytes(Double price, Integer minutes, Integer megabytes);
+
 }

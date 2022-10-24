@@ -38,6 +38,8 @@ public interface TariffMapper {
 
     List<TariffDto> convertToDto(List<TariffDtoWithoutId> tariffDtoWithoutIds);
 
+    List<TariffPhoneDto> convertToTariffPhoneDtoList(List<Tariff> tariffList);
+
     @AfterMapping
     default void linkPhone(@MappingTarget Tariff tariff) {
         if (tariff != null && tariff.getPhoneList() != null) {

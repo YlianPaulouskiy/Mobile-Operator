@@ -36,6 +36,8 @@ public interface PhoneMapper {
 
     List<PhoneDtoWithoutId> convertToDtoListWithoutId(List<Phone> phoneList);
 
+    List<PhoneClientDto> convertToPhoneClientDtoList(List<Phone> phoneList);
+
     @AfterMapping
     default void linkTariff(@MappingTarget Phone phone) {
         if (phone != null && phone.getTariff() != null) {
