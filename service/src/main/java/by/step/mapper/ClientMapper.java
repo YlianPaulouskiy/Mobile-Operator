@@ -13,7 +13,7 @@ import org.mapstruct.ReportingPolicy;
 import java.util.List;
 
 @Mapper(
-//        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
         componentModel = "spring"
 )
 public interface ClientMapper {

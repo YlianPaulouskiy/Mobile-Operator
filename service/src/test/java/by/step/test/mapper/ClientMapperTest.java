@@ -23,10 +23,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-    @ExtendWith(MockitoExtension.class)
 public class ClientMapperTest {
 
-    @Mock
     private final ClientMapper clientMapper = new ClientMapperImpl();
 
     private Client client = new Client();

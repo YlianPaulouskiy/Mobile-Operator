@@ -17,7 +17,11 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>by.step</groupId>
+            <artifactId>service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
