@@ -90,7 +90,7 @@ public class UserPhoneServiceTest {
     }
 
     @Test
-    @DisplayName("Find All Phone ")
+    @DisplayName("Find All Phones ")
     public void findAllTest() {
         when(phoneMapper.convertToDtoListWithoutId(phoneList)).thenReturn(phoneDtoWithoutIdList);
         when(phoneRepository.findAll()).thenReturn(phoneList);

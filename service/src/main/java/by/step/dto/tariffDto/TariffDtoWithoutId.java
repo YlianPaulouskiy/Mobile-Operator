@@ -10,6 +10,6 @@ import java.util.List;
 @Data
 public class TariffDtoWithoutId extends TariffDto {
 
-    private List<PhoneDtoWithoutId> phone;
+    private List<PhoneDtoWithoutId> phoneList;
 
 }
