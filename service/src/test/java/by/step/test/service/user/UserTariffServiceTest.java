@@ -33,15 +33,15 @@ public class UserTariffServiceTest {
     @InjectMocks
     private UserTariffServiceImpl userTariffService;
 
-    private final static Tariff tariff = new Tariff();
+    private static Tariff tariff = new Tariff();
 
-    private final static TariffDtoWithoutId tariffDtoWithoutId = new TariffDtoWithoutId();
+    private static TariffDtoWithoutId tariffDtoWithoutId = new TariffDtoWithoutId();
 
-    private final static List<Tariff> tariffList = new ArrayList<>();
+    private static List<Tariff> tariffList = new ArrayList<>();
 
-    private final static List<TariffDtoWithoutId> tariffDtoWithoutIdList = new ArrayList<>();
+    private static List<TariffDtoWithoutId> tariffDtoWithoutIdList = new ArrayList<>();
 
-    private final static List<TariffDto> tariffDtoList = new ArrayList<>();
+    private static List<TariffDto> tariffDtoList = new ArrayList<>();
 
     @BeforeAll
     public static void setup() {

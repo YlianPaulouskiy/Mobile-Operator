@@ -40,24 +40,27 @@ public class AdminClientServiceImpl implements AdminClientService {
         return clientMapper.convertToClientPhoneDtoList(clientRepository.findAll());
     }
 
-    // FIXME: 20.10.2022 check dateCreation and lastModified не лучше ли передать ClientDto ?
     @Override
     public ClientPhoneDto save(ClientPhoneDto entity) {
-        if (clientRepository.existsByNameAndLastNameAndPatronymic(
-                entity.getName(), entity.getLastName(), entity.getPatronymic())) {
-            if (entity.getName().length() == 0
-                    || entity.getLastName().length() == 0
-                    || entity.getPatronymic().length() == 0) {
-                throw new EntityNotCorrectException("Check input sources.");
+        if (entity != null) {
+            if (clientRepository.existsByNameAndLastNameAndPatronymic(
+                    entity.getName(), entity.getLastName(), entity.getPatronymic())) {
+                if (entity.getName().length() == 0
+                        || entity.getLastName().length() == 0
+                        || entity.getPatronymic().length() == 0) {
+                    throw new EntityNotCorrectException("Check input sources.");
+                } else {
+                    return clientMapper.convertToDtoWithPhone(
+                            clientRepository.save(
+                                    clientMapper.convert(entity)
+                            )
+                    );
+                }
             } else {
-                return clientMapper.convertToDtoWithPhone(
-                        clientRepository.save(
-                                clientMapper.convert(entity)
-                        )
-                );
+                throw new EntityExistsException("Client already exists.");
             }
         } else {
-            throw new EntityExistsException("Client already exists.");
+            throw new EntityNotCorrectException("Input source is null.");
         }
     }
 
@@ -70,7 +73,6 @@ public class AdminClientServiceImpl implements AdminClientService {
         }
     }
 
-    // FIXME: 20.10.2022 ПРОВЕРИТЬ!!!
     @Override
     public ClientPhoneDto addPhoneToClient(Long clientId, PhoneDto phoneDto) {
         if (clientRepository.existsById(clientId) && phoneDto != null) {
