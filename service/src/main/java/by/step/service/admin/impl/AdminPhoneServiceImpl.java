@@ -130,9 +130,8 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
         if (phoneRepository.existsById(phoneId) && tariffRepository.existsById(tariffId)) {
             PhoneClientDto phoneClientDto = findOneById(phoneId);
             TariffPhoneDto tariffPhoneDto = tariffMapper.convertToDtoWithPhone(tariffRepository.findById(tariffId).get());
-            if (phoneClientDto.getTariff() == null
-                    || !(phoneClientDto.getTariff().getId().equals(tariffPhoneDto.getId()))
-                    || tariffPhoneDto.getPhoneList() != null) {
+            if (!(phoneClientDto.getTariff().getId().equals(tariffPhoneDto.getId()))
+                    && tariffPhoneDto.getPhoneList() != null) {
                 //засэйвить друг другу
                 phoneClientDto.setTariff(tariffPhoneDto);
                 tariffPhoneDto.getPhoneList().add(phoneClientDto);

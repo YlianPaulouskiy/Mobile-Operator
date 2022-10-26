@@ -36,21 +36,25 @@ public class AdminTariffServiceImpl implements AdminTariffService {
 
     @Override
     public TariffPhoneDto save(TariffPhoneDto entity) {
-        if (!tariffRepository.existsByPriceAndMinutesAndMegabytes(
-                entity.getPrice(), entity.getMinutes(), entity.getMegabytes())) {
-            if (entity.getPrice() > 0.0
-            && entity.getMinutes() > 0
-            && entity.getMegabytes() > 0) {
-                return tariffMapper.convertToDtoWithPhone(
-                        tariffRepository.save (
-                                tariffMapper.convert(entity)
-                        )
-                );
+        if (entity != null) {
+            if (!tariffRepository.existsByPriceAndMinutesAndMegabytes(
+                    entity.getPrice(), entity.getMinutes(), entity.getMegabytes())) {
+                if (entity.getPrice() > 0.0
+                        && entity.getMinutes() > 0
+                        && entity.getMegabytes() > 0) {
+                    return tariffMapper.convertToDtoWithPhone(
+                            tariffRepository.save(
+                                    tariffMapper.convert(entity)
+                            )
+                    );
+                } else {
+                    throw new EntityNotCorrectException("Check input sources.");
+                }
             } else {
-                throw new EntityNotCorrectException("Check input sources.");
+                throw new EntityExistsException("Tariff with this parameters already exists.");
             }
         } else {
-            throw new EntityExistsException("Tariff with this parameters already exists");
+            throw new EntityNotCorrectException("Input sources is null.");
         }
     }
 

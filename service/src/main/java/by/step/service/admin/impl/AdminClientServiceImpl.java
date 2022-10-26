@@ -77,8 +77,8 @@ public class AdminClientServiceImpl implements AdminClientService {
     public ClientPhoneDto addPhoneToClient(Long clientId, PhoneDto phoneDto) {
         if (clientRepository.existsById(clientId) && phoneDto != null) {
             if (phoneDto.getCountryCode().length() >= 2
-                    || phoneDto.getOperatorCode().length() >= 2
-                    || phoneDto.getMobile().length() >= 5) {
+                    && phoneDto.getOperatorCode().length() >= 2
+                    && phoneDto.getMobile().length() >= 5) {
                 // если существует то просто связать, иначе сохранить и связать
                 if (phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
                         phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {

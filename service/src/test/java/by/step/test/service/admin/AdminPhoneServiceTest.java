@@ -201,7 +201,7 @@ public class AdminPhoneServiceTest {
 
     @Test
     @DisplayName("Save Null Phone Test")
-    public void saveNullClientTest() {
+    public void saveNullPhoneTest() {
         Throwable exception = assertThrows(EntityNotCorrectException.class, () -> {
             adminPhoneService.save(null);
         });
@@ -217,6 +217,20 @@ public class AdminPhoneServiceTest {
         when(phoneRepository.existsById(1L)).thenReturn(true);
         adminPhoneService.removeById(1L);
         verify(phoneRepository).deleteById(1L);
+    }
+
+    @Test
+    @DisplayName("Remove Exception Phone Test")
+    public void removeExceptionTest() {
+        when(phoneRepository.existsById(1L)).thenReturn(false);
+
+        Throwable exception = assertThrows(EntityNotFoundException.class, () -> {
+            adminPhoneService.removeById(1L);
+        });
+
+        assertAll(() -> {
+            assertEquals("Phone id# " + 1L + " not found.", exception.getMessage());
+        });
     }
 
     @Test
@@ -284,4 +298,69 @@ public class AdminPhoneServiceTest {
         });
     }
     // TODO: 26.10.2022 тесты на проверки exception в последних трех методах
+
+    @Test
+    @DisplayName("Add Client To Phone Exception Test")
+    public void addClientToPhoneExceptionTest() {
+        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
+
+        Throwable exception = assertThrows(EntityNotFoundException.class, () -> {
+            adminPhoneService.addClientToPhone(phoneClientDto.getId(), clientDto);
+        });
+
+        assertAll(() -> {
+            assertEquals("Phone id " + phoneClientDto.getId() + " doesn't exist.", exception.getMessage());
+        });
+    }
+
+    @Test
+    @DisplayName("Add Client To Phone Input Exception Test")
+    public void addClientToPhoneInputExceptionTest() {
+        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+        clientDto.setName("");
+
+        Throwable exception = assertThrows(EntityNotCorrectException.class, () -> {
+            adminPhoneService.addClientToPhone(clientPhoneDto.getId(), clientDto);
+        });
+
+        assertAll(() -> {
+            assertEquals("Check input sources.", exception.getMessage());
+        });
+    }
+
+    @Test
+    @DisplayName("Add Client To Phone Exception Test")
+    public void addTariffToPhoneExceptionTest() {
+        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
+
+        Throwable exception = assertThrows(EntityNotFoundException.class, () -> {
+            adminPhoneService.addTariffToPhone(phoneClientDto.getId(), tariffPhoneDto.getId());
+        });
+
+        assertAll(() -> {
+            assertEquals("Tariff id " + tariffPhoneDto.getId() + " or phone id " + phoneClientDto.getId() + " doesn't exist.", exception.getMessage());
+        });
+    }
+
+    @Test
+    @DisplayName("Add Tariff To Phone Input Exception Test")
+    public void addTariffToPhoneInputExceptionTest() {
+        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+        when(tariffRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+        when(tariffMapper.convertToDtoWithPhone(tariff)).thenReturn(tariffPhoneDto);
+        when(tariffRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(tariff));
+        //findOneById
+        when(phoneMapper.convertToDtoWithClient(phone)).thenReturn(phoneClientDto);
+        when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
+        phoneClientDto.setTariff(tariffPhoneDto);
+
+        Throwable exception = assertThrows(EntityExistsException.class, () -> {
+            adminPhoneService.addTariffToPhone(clientPhoneDto.getId(), tariffPhoneDto.getId());
+        });
+
+        assertAll(() -> {
+            assertEquals("Phone already used this tariff.", exception.getMessage());
+        });
+    }
+
 }
