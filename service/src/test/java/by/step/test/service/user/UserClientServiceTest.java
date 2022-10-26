@@ -77,7 +77,7 @@ public class UserClientServiceTest {
     }
 
     @Test
-    @DisplayName("Find client by Id")
+    @DisplayName("Find Client By Id Test")
     public void findOneByIdTest() {
         when(clientMapper.convertToDtoWithoutId(client)).thenReturn(clientDtoWithoutId);
         when(clientRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(client));
@@ -89,7 +89,7 @@ public class UserClientServiceTest {
     }
 
     @Test
-    @DisplayName("Find client by Null Id")
+    @DisplayName("Find Client By Null Id Test")
     public void findOneByIdNullTest() {
         Long id = 0L;
         Throwable exception = assertThrows(EntityNotFoundException.class, () -> {
@@ -102,7 +102,7 @@ public class UserClientServiceTest {
     }
 
     @Test
-    @DisplayName("Find All clients")
+    @DisplayName("Find All Clients Test")
     public void findAllClientsTest() {
         when(clientMapper.convertToDtoListWithoutId(clientList)).thenReturn(clientDtoWithoutIdList);
         when(clientRepository.findAll()).thenReturn(clientList);
@@ -114,12 +114,12 @@ public class UserClientServiceTest {
     }
 
     @Test
-    @DisplayName("find Amount clients")
+    @DisplayName("Find Amount Clients Test")
     public void findAmountClientsTest() {
         when(clientRepository.count()).thenReturn(Long.valueOf(clientList.size()));
 
         assertAll(() -> {
-            assertEquals(userClientService.getAmountClients(), 1L);
+            assertEquals(userClientService.getAmountClients(), clientDtoWithoutIdList.size());
         });
     }
 

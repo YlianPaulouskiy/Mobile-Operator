@@ -106,6 +106,7 @@ public class AdminClientServiceImpl implements AdminClientService {
                     .convertToDtoWithClient(phoneRepository.findById(phoneId).get());
             if (clientPhoneDto.getPhoneList() != null
                     && !clientPhoneDto.getPhoneList().contains(phoneClientDto)) {
+                //засэйвить друг другу
                 clientPhoneDto.getPhoneList().add(phoneClientDto);
                 phoneClientDto.setClient(clientPhoneDto);
                 //засэйвить в базу

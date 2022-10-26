@@ -74,7 +74,7 @@ public class UserTariffServiceTest {
     }
 
     @Test
-    @DisplayName("Find One Tariff By Id ")
+    @DisplayName("Find One Tariff By Id Test")
     public void findOneByIdTest() {
         when(tariffMapper.convertToDtoWithoutId(tariff)).thenReturn(tariffDtoWithoutId);
         when(tariffRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(tariff));
@@ -86,7 +86,7 @@ public class UserTariffServiceTest {
     }
 
     @Test
-    @DisplayName("Find One Tariff By Null Id ")
+    @DisplayName("Find One Tariff By Null Id Test")
     public void findOneByIdNullTest() {
         Long id = 0L;
         Throwable exception = assertThrows(EntityNotFoundException.class,
@@ -99,7 +99,7 @@ public class UserTariffServiceTest {
     }
 
     @Test
-    @DisplayName("Find All Tariffs ")
+    @DisplayName("Find All Tariffs Test")
     public void findAllTest() {
         when(tariffMapper.convertToDtoListWithoutId(tariffList)).thenReturn(tariffDtoWithoutIdList);
         when(tariffRepository.findAll()).thenReturn(tariffList);
@@ -111,7 +111,7 @@ public class UserTariffServiceTest {
     }
 
     @Test
-    @DisplayName("Sort Tariffs By Price")
+    @DisplayName("Sort Tariffs By Price Test")
     public void sortTariffsByPriceTest() {
         when(tariffMapper.convertToDtoListWithoutId(tariffList)).thenReturn(tariffDtoWithoutIdList);
         when(tariffRepository.findAll()).thenReturn(tariffList);

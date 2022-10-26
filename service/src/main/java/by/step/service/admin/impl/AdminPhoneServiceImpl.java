@@ -3,8 +3,7 @@ package by.step.service.admin.impl;
 import by.step.dto.clientDto.ClientDto;
 import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.dto.phoneDto.PhoneClientDto;
-import by.step.dto.tariffDto.TariffDto;
-import by.step.dto.tariffDto.TariffDtoWithoutId;
+import by.step.dto.tariffDto.TariffPhoneDto;
 import by.step.entity.Client;
 import by.step.mapper.ClientMapper;
 import by.step.mapper.PhoneMapper;
@@ -49,21 +48,25 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
 
     @Override
     public PhoneClientDto save(PhoneClientDto entity) {
-        if (!phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
-                entity.getCountryCode(), entity.getOperatorCode(), entity.getMobile())) {
-            if (entity.getCountryCode().length() >= 2
-                    || entity.getOperatorCode().length() >= 2
-                    || entity.getMobile().length() >= 5) {
-                return phoneMapper.convertToDtoWithClient(
-                        phoneRepository.save(
-                                phoneMapper.convert(entity)
-                        )
-                );
+        if (entity != null) {
+            if (!phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
+                    entity.getCountryCode(), entity.getOperatorCode(), entity.getMobile())) {
+                if (entity.getCountryCode().length() >= 2
+                        && entity.getOperatorCode().length() >= 2
+                        && entity.getMobile().length() >= 5) {
+                    return phoneMapper.convertToDtoWithClient(
+                            phoneRepository.save(
+                                    phoneMapper.convert(entity)
+                            )
+                    );
+                } else {
+                    throw new EntityNotCorrectException("Check input sources.");
+                }
             } else {
-                throw new EntityNotCorrectException("Check input sources.");
+                throw new EntityExistsException("This phone already exists.");
             }
         } else {
-            throw new EntityExistsException("This phone already exists.");
+            throw new EntityNotCorrectException("Input sources is null.");
         }
     }
 
@@ -122,16 +125,27 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
         }
     }
 
-    // FIXME: 24.10.2022 NEED COMPLETE
     @Override
     public PhoneClientDto addTariffToPhone(Long phoneId, Long tariffId) {
         if (phoneRepository.existsById(phoneId) && tariffRepository.existsById(tariffId)) {
             PhoneClientDto phoneClientDto = findOneById(phoneId);
-
+            TariffPhoneDto tariffPhoneDto = tariffMapper.convertToDtoWithPhone(tariffRepository.findById(tariffId).get());
+            if (phoneClientDto.getTariff() == null
+                    || !(phoneClientDto.getTariff().getId().equals(tariffPhoneDto.getId()))
+                    || tariffPhoneDto.getPhoneList() != null) {
+                //засэйвить друг другу
+                phoneClientDto.setTariff(tariffPhoneDto);
+                tariffPhoneDto.getPhoneList().add(phoneClientDto);
+                //засэйвить в базу
+                phoneRepository.save(phoneMapper.convert(phoneClientDto));
+                tariffRepository.save(tariffMapper.convert(tariffPhoneDto));
+            } else {
+                throw new EntityExistsException("Phone already used this tariff.");
+            }
+            return phoneClientDto;
         } else {
             throw new EntityNotFoundException("Tariff id " + tariffId + " or phone id " + phoneId + " doesn't exist.");
         }
-        return null;
     }
 
 }

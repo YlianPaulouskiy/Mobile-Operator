@@ -38,13 +38,13 @@ public class UserPhoneServiceTest {
     @InjectMocks
     private UserPhoneServiceImpl userPhoneService;
 
-    private final static Phone phone = new Phone();
+    private static Phone phone = new Phone();
 
-    private final static PhoneDtoWithoutId phoneDtoWithoutId = new PhoneDtoWithoutId();
+    private static PhoneDtoWithoutId phoneDtoWithoutId = new PhoneDtoWithoutId();
 
-    private final static List<Phone> phoneList = new ArrayList<>();
+    private static List<Phone> phoneList = new ArrayList<>();
 
-    private final static List<PhoneDtoWithoutId> phoneDtoWithoutIdList = new ArrayList<>();
+    private static List<PhoneDtoWithoutId> phoneDtoWithoutIdList = new ArrayList<>();
 
     @BeforeAll
     public static void setup() {
@@ -65,7 +65,7 @@ public class UserPhoneServiceTest {
     }
 
     @Test
-    @DisplayName("Find One Phone By Id ")
+    @DisplayName("Find One Phone By Id Test")
     public void findOneByIdTest() {
         when(phoneMapper.convertToDtoWithoutId(phone)).thenReturn(phoneDtoWithoutId);
         when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
@@ -77,7 +77,7 @@ public class UserPhoneServiceTest {
     }
 
     @Test
-    @DisplayName("Find One Phone By Null Id ")
+    @DisplayName("Find One Phone By Null Id Test")
     public void findOneByIdNullTest() {
         Long id = 0L;
         Throwable exception = assertThrows(EntityNotFoundException.class,
@@ -90,7 +90,7 @@ public class UserPhoneServiceTest {
     }
 
     @Test
-    @DisplayName("Find All Phones ")
+    @DisplayName("Find All Phones Test")
     public void findAllTest() {
         when(phoneMapper.convertToDtoListWithoutId(phoneList)).thenReturn(phoneDtoWithoutIdList);
         when(phoneRepository.findAll()).thenReturn(phoneList);

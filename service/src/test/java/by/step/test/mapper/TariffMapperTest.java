@@ -10,9 +10,6 @@ import by.step.mapper.TariffMapperImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,10 +19,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-@ExtendWith(MockitoExtension.class)
 public class TariffMapperTest {
 
-    @Mock
     private final TariffMapper tariffMapper = new TariffMapperImpl();
 
     private Tariff tariff = new Tariff();

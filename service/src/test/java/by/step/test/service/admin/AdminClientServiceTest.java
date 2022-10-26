@@ -11,7 +11,6 @@ import by.step.repository.ClientRepository;
 import by.step.repository.PhoneRepository;
 import by.step.service.admin.impl.AdminClientServiceImpl;
 import by.step.service.exception.EntityNotCorrectException;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -78,6 +77,7 @@ public class AdminClientServiceTest {
 
         clientList.add(client);
 
+        clientPhoneDto.setId(1L);
         clientPhoneDto.setName("Name");
         clientPhoneDto.setLastName("LastName");
         clientPhoneDto.setPatronymic("Patronymic");
@@ -214,7 +214,7 @@ public class AdminClientServiceTest {
         when(clientRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(client));
 
         assertAll(() -> {
-            assertNotNull(adminClientService.addPhoneToClient(1L, phoneDto));
+            assertNotNull(adminClientService.addPhoneToClient(clientPhoneDto.getId(), phoneDto));
         });
     }
 
@@ -236,9 +236,11 @@ public class AdminClientServiceTest {
         when(clientRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(client));
 
         assertAll(() -> {
-            assertNotNull(adminClientService.addPhoneToClient(1L, phoneDto));
+            assertNotNull(adminClientService.addPhoneToClient(clientPhoneDto.getId(), phoneDto));
         });
     }
+
+    // TODO: 26.10.2022 тесты на проверки exception в последних двух методах
 
     @Test
     @DisplayName("Find Amount Clients Test")
@@ -246,7 +248,7 @@ public class AdminClientServiceTest {
         when(clientRepository.count()).thenReturn(Long.valueOf(clientList.size()));
 
         assertAll(() -> {
-            assertEquals(adminClientService.getAmountClients(), clientList.size());
+            assertEquals(adminClientService.getAmountClients(), clientPhoneDtoList.size());
         });
     }
 
