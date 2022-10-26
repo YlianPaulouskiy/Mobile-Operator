@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public interface BaseAdminController<T> extends BaseUserController<T> {
 
-    @PostMapping
+    @PostMapping("/save")
     T save(@RequestBody T entity);
 
-    @DeleteMapping
-    T removeById(@RequestParam Long id);
+    @DeleteMapping("/removeById")
+    void removeById(@RequestParam Long id);
 
 }
