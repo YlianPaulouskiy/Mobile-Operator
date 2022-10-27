@@ -16,7 +16,7 @@ public interface AdminClientController extends BaseAdminController<ClientPhoneDt
     @PostMapping("/addPhoneToClientByBody")
     ClientPhoneDto addPhoneToClient(@RequestParam Long clientId, @RequestBody PhoneDto phoneDto);
 
-    @PostMapping("addPhoneToClientById")
+    @PostMapping("/addPhoneToClientById")
     ClientPhoneDto addPhoneToClient(@RequestParam Long clientId, @RequestParam Long phoneId);
 
 
