@@ -13,7 +13,7 @@ public interface AdminClientController extends BaseAdminController<ClientPhoneDt
     @GetMapping("/amountClients")
     Long getAmountClients();
 
-    @PostMapping("/addPhoneToClientByBody")
+    @PostMapping("/addPhoneToClientByNumber")
     ClientPhoneDto addPhoneToClient(@RequestParam Long clientId, @RequestBody PhoneDto phoneDto);
 
     @PostMapping("/addPhoneToClientById")

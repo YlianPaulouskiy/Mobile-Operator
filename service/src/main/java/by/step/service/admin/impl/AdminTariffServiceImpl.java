@@ -75,9 +75,11 @@ public class AdminTariffServiceImpl implements AdminTariffService {
     }
 
     @Override
-    public TariffPhoneDto findByPriceAndMinutesAndMegabytes(Double priceFrom, Double priceTo, Integer minutesFrom, Integer minutesTo,
-                                                       Integer megabytesFrom, Integer megabytesTo) {
-        return tariffMapper.convertToDtoWithPhone(tariffRepository.findTariffByPriceBetweenAndMinutesBetweenAndMegabytesBetween(
+    public TariffPhoneDto findByPriceAndMinutesAndMegabytes(Double priceFrom, Double priceTo,
+                                                            Integer minutesFrom, Integer minutesTo,
+                                                            Integer megabytesFrom, Integer megabytesTo) {
+        return tariffMapper.convertToDtoWithPhone(tariffRepository
+                .findTariffByPriceBetweenAndMinutesBetweenAndMegabytesBetween(
                 priceFrom, priceTo, minutesFrom, minutesTo, megabytesFrom, megabytesTo)
         );
     }

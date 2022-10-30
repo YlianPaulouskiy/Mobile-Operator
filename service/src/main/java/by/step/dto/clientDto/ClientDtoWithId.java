@@ -11,8 +11,4 @@ public class ClientDtoWithId extends ClientDto {
 
     private String dateCreation;
 
-    private String lastModified;
-
-    private Long version;
-
 }

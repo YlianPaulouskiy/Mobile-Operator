@@ -11,8 +11,4 @@ public class TariffDtoWithId extends TariffDto {
 
     private String dateCreation;
 
-    private String lastModified;
-
-    private Long version;
-
 }

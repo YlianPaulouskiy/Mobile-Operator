@@ -3,6 +3,7 @@ package by.step.service.admin.impl;
 import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.dto.phoneDto.PhoneClientDto;
 import by.step.dto.phoneDto.PhoneDto;
+import by.step.entity.Client;
 import by.step.entity.Phone;
 import by.step.mapper.ClientMapper;
 import by.step.mapper.PhoneMapper;
@@ -51,10 +52,7 @@ public class AdminClientServiceImpl implements AdminClientService {
                     throw new EntityNotCorrectException("Check input sources.");
                 } else {
                     return clientMapper.convertToDtoWithPhone(
-                            clientRepository.save(
-                                    clientMapper.convert(entity)
-                            )
-                    );
+                            clientRepository.save(clientMapper.convert(entity)));
                 }
             } else {
                 throw new EntityExistsException("Client already exists.");
@@ -75,11 +73,10 @@ public class AdminClientServiceImpl implements AdminClientService {
 
     @Override
     public ClientPhoneDto addPhoneToClient(Long clientId, PhoneDto phoneDto) {
-        if (clientRepository.existsById(clientId) && phoneDto != null) {
-            if (phoneDto.getCountryCode().length() >= 2
-                    && phoneDto.getOperatorCode().length() >= 2
-                    && phoneDto.getMobile().length() >= 5) {
-                // если существует то просто связать, иначе сохранить и связать
+        if (clientRepository.existsById(clientId)) {
+            if (phoneDto.getCountryCode().length() != 0
+                    && phoneDto.getOperatorCode().length() != 0
+                    && phoneDto.getMobile().length() != 0) {
                 if (phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
                         phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {
                     Phone phone = phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
@@ -101,21 +98,18 @@ public class AdminClientServiceImpl implements AdminClientService {
     @Override
     public ClientPhoneDto addPhoneToClient(Long clientId, Long phoneId) {
         if (clientRepository.existsById(clientId) && phoneRepository.existsById(phoneId)) {
-            ClientPhoneDto clientPhoneDto = findOneById(clientId);
-            PhoneClientDto phoneClientDto = phoneMapper
-                    .convertToDtoWithClient(phoneRepository.findById(phoneId).get());
-            if (clientPhoneDto.getPhoneList() != null
-                    && !clientPhoneDto.getPhoneList().contains(phoneClientDto)) {
-                //засэйвить друг другу
-                clientPhoneDto.getPhoneList().add(phoneClientDto);
-                phoneClientDto.setClient(clientPhoneDto);
-                //засэйвить в базу
-                clientRepository.save(clientMapper.convert(clientPhoneDto));
-                phoneRepository.save(phoneMapper.convert(phoneClientDto));
+            Client client = clientMapper.convert(findOneById(clientId));
+            Phone phone = phoneRepository.findById(phoneId).get();
+            if (phone.getClient() == null
+                    || !phone.getClient().getId().equals(clientId)) {
+                client.getPhoneList().add(phone);
+                phone.setClient(client);
+                clientRepository.save(client);
+                phoneRepository.save(phone);
+                return clientMapper.convertToDtoWithPhone(client);
             } else {
                 throw new EntityExistsException("Client already using this phone.");
             }
-            return clientPhoneDto;
         } else {
             throw new EntityNotFoundException("Client id " + clientId + " or phone id " + phoneId + " doesn't exist.");
         }

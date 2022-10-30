@@ -2,7 +2,6 @@ package by.step.entity.parent;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,14 +19,5 @@ public abstract class BaseEntity {
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "date_creation")
     private Date dateCreation;
-
-    @UpdateTimestamp
-    @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(name = "last_modified")
-    private Date lastModified;
-
-    @Version
-    @Column(name = "version")
-    private Long version;
 
 }

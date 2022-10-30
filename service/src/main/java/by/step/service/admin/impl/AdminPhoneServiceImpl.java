@@ -5,6 +5,8 @@ import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.dto.phoneDto.PhoneClientDto;
 import by.step.dto.tariffDto.TariffPhoneDto;
 import by.step.entity.Client;
+import by.step.entity.Phone;
+import by.step.entity.Tariff;
 import by.step.mapper.ClientMapper;
 import by.step.mapper.PhoneMapper;
 import by.step.mapper.TariffMapper;
@@ -82,25 +84,24 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
     @Override
     public PhoneClientDto addClientToPhone(Long phoneId, Long clientId) {
         if (phoneRepository.existsById(phoneId) && clientRepository.existsById(clientId)) {
-            PhoneClientDto phoneClientDto = findOneById(clientId);
-            ClientPhoneDto clientPhoneDto = clientMapper
-                    .convertToDtoWithPhone(clientRepository.findById(clientId).get());
-            if (clientPhoneDto.getPhoneList() != null
-                    && !clientPhoneDto.getPhoneList().contains(phoneClientDto)) {
-                clientPhoneDto.getPhoneList().add(phoneClientDto);
-                phoneClientDto.setClient(clientPhoneDto);
-                // засэйвить в базу
-                clientRepository.save(clientMapper.convert(clientPhoneDto));
-                phoneRepository.save(phoneMapper.convert(phoneClientDto));
+            Phone phone = phoneMapper.convert(findOneById(phoneId));
+            Client client = clientRepository.findById(clientId).get();
+            if (phone.getClient() == null
+                    || !phone.getClient().getId().equals(clientId)) {
+                phone.setClient(client);
+                client.getPhoneList().add(phone);
+                phoneRepository.save(phone);
+                clientRepository.save(client);
+                return phoneMapper.convertToDtoWithClient(phone);
             } else {
                 throw new EntityExistsException("Client already using this phone.");
             }
-            return phoneClientDto;
         } else {
             throw new EntityNotFoundException("Client id " + clientId + " or phone id " + phoneId + " doesn't exist.");
         }
     }
 
+    // TODO: 30.10.2022 CHECK THIS
     @Override
     public PhoneClientDto addClientToPhone(Long phoneId, ClientDto clientDto) {
         if (phoneRepository.existsById(phoneId)) {
@@ -128,20 +129,18 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
     @Override
     public PhoneClientDto addTariffToPhone(Long phoneId, Long tariffId) {
         if (phoneRepository.existsById(phoneId) && tariffRepository.existsById(tariffId)) {
-            PhoneClientDto phoneClientDto = findOneById(phoneId);
-            TariffPhoneDto tariffPhoneDto = tariffMapper.convertToDtoWithPhone(tariffRepository.findById(tariffId).get());
-            if (!(phoneClientDto.getTariff().getId().equals(tariffPhoneDto.getId()))
-                    && tariffPhoneDto.getPhoneList() != null) {
-                //засэйвить друг другу
-                phoneClientDto.setTariff(tariffPhoneDto);
-                tariffPhoneDto.getPhoneList().add(phoneClientDto);
-                //засэйвить в базу
-                phoneRepository.save(phoneMapper.convert(phoneClientDto));
-                tariffRepository.save(tariffMapper.convert(tariffPhoneDto));
+            Phone phone = phoneMapper.convert(findOneById(phoneId));
+            Tariff tariff = tariffRepository.findById(tariffId).get();
+            if (phone.getTariff() == null
+                    || !phone.getTariff().getId().equals(tariffId)) {
+                phone.setTariff(tariff);
+                tariff.getPhoneList().add(phone);
+                phoneRepository.save(phone);
+                tariffRepository.save(tariff);
+                return phoneMapper.convertToDtoWithClient(phone);
             } else {
                 throw new EntityExistsException("Phone already used this tariff.");
             }
-            return phoneClientDto;
         } else {
             throw new EntityNotFoundException("Tariff id " + tariffId + " or phone id " + phoneId + " doesn't exist.");
         }

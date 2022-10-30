@@ -1,7 +1,7 @@
 package by.step.dto.phoneDto;
 
-import by.step.dto.clientDto.ClientPhoneDto;
-import by.step.dto.tariffDto.TariffPhoneDto;
+import by.step.dto.clientDto.ClientDtoWithId;
+import by.step.dto.tariffDto.TariffDtoWithId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -9,8 +9,8 @@ import lombok.EqualsAndHashCode;
 @Data
 public class PhoneClientDto extends PhoneDtoWithId {
 
-    private ClientPhoneDto client;
+    private ClientDtoWithId client;
 
-    private TariffPhoneDto tariff;
+    private TariffDtoWithId tariff;
 
 }

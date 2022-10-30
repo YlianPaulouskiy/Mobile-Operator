@@ -11,8 +11,4 @@ public class PhoneDtoWithId extends PhoneDto {
 
     private String dateCreation;
 
-    private String lastModified;
-
-    private Long version;
-
 }
