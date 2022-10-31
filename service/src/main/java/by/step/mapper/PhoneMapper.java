@@ -40,19 +40,17 @@ public interface PhoneMapper {
 
     @AfterMapping
     default void linkTariff(@MappingTarget Phone phone) {
-        if (phone != null && phone.getTariff() != null) {
-            if (phone.getTariff().getPhoneList() != null) {
-                phone.getTariff().getPhoneList().add(phone);
-            }
+        if (phone != null && phone.getTariff() != null
+                && phone.getTariff().getPhoneList() != null) {
+            phone.getTariff().getPhoneList().add(phone);
         }
     }
 
     @AfterMapping
     default void linkClient(@MappingTarget Phone phone) {
-        if (phone != null && phone.getClient() != null && phone.getTariff() != null) {
-            if (phone.getClient().getPhoneList() != null) {
-                phone.getClient().getPhoneList().add(phone);
-            }
+        if (phone != null && phone.getClient() != null
+                && phone.getClient().getPhoneList() != null) {
+            phone.getClient().getPhoneList().add(phone);
         }
     }
 
