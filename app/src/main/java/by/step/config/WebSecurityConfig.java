@@ -20,15 +20,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("admin")
                 .roles("ADMIN")
                 .and()
-                .withUser("")
-                .password("")
+                .withUser("user")
+                .password("user")
                 .roles("USER");
 
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .cors().disable()
+                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
