@@ -1,7 +1,10 @@
 //package by.step.test.service.user;
 //
+//import by.step.dto.clientDto.ClientDto;
 //import by.step.dto.clientDto.ClientDtoWithoutId;
+//import by.step.dto.phoneDto.PhoneDto;
 //import by.step.dto.phoneDto.PhoneDtoWithoutId;
+//import by.step.dto.tariffDto.TariffDto;
 //import by.step.dto.tariffDto.TariffDtoWithoutId;
 //import by.step.entity.Client;
 //import by.step.entity.Phone;
@@ -40,6 +43,8 @@
 //
 //    private static Phone phone = new Phone();
 //
+//    private static PhoneDto phoneDto = new PhoneDto();
+//
 //    private static PhoneDtoWithoutId phoneDtoWithoutId = new PhoneDtoWithoutId();
 //
 //    private static List<Phone> phoneList = new ArrayList<>();
@@ -56,36 +61,43 @@
 //        phone.setTariff(new Tariff());
 //        phoneList.add(phone);
 //
+//        phoneDto.setCountryCode("+375");
+//        phoneDto.setOperatorCode("44");
+//        phoneDto.setMobile("1234567");
+//
 //        phoneDtoWithoutId.setCountryCode("+375");
 //        phoneDtoWithoutId.setOperatorCode("44");
 //        phoneDtoWithoutId.setMobile("1234567");
-//        phoneDtoWithoutId.setClient(new ClientDtoWithoutId());
-//        phoneDtoWithoutId.setTariff(new TariffDtoWithoutId());
+//        phoneDtoWithoutId.setClient(new ClientDto());
+//        phoneDtoWithoutId.setTariff(new TariffDto());
 //        phoneDtoWithoutIdList.add(phoneDtoWithoutId);
 //    }
 //
 //    @Test
-//    @DisplayName("Find One Phone By Id Test")
-//    public void findOneByIdTest() {
+//    @DisplayName("Find One Phone By Number Test")
+//    public void findOneByNumberTest() {
 //        when(phoneMapper.convertToDtoWithoutId(phone)).thenReturn(phoneDtoWithoutId);
-//        when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
+//        when(phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
+//                phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile()
+//        )).thenReturn(true);
+//        when(phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
+//                phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile()
+//        )).thenReturn(phone);
 //
 //        assertAll(() -> {
-//            assertEquals(userPhoneService.findOneById(1L), phoneDtoWithoutId);
-//            assertNotEquals(userPhoneService.findOneById(1L), phone);
+//            assertEquals(userPhoneService.findOneByNumber(phoneDto), phoneDtoWithoutId);
 //        });
 //    }
 //
 //    @Test
 //    @DisplayName("Find One Phone By Null Id Test")
 //    public void findOneByIdNullTest() {
-//        Long id = 0L;
 //        Throwable exception = assertThrows(EntityNotFoundException.class,
-//                () -> userPhoneService.findOneById(id)
+//                () -> userPhoneService.findOneByNumber(null)
 //        );
 //
 //        assertAll( () -> {
-//            assertEquals("Phone #0 not found.", exception.getMessage());
+//            assertEquals("Phone not found.", exception.getMessage());
 //        });
 //    }
 //

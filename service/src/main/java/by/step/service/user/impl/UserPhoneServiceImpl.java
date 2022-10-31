@@ -20,13 +20,13 @@ public class UserPhoneServiceImpl implements UserPhoneService {
 
     @Override
     public PhoneDtoWithoutId findOneByNumber(PhoneDto phoneDto) {
-        if (phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
+        if (phoneDto != null
+                && phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
                 phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {
             return phoneMapper.convertToDtoWithoutId(phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
                     phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile()));
         } else {
-            throw new EntityNotFoundException("Phone " +phoneDto.getCountryCode() +
-                    phoneDto.getOperatorCode() +  phoneDto.getMobile() + " not found.");
+            throw new EntityNotFoundException("Phone not found.");
         }
     }
 

@@ -47,9 +47,6 @@
 //    private ClientRepository clientRepository;
 //
 //    @Mock
-//    private ClientMapper clientMapper;
-//
-//    @Mock
 //    private TariffRepository tariffRepository;
 //
 //    @Mock
@@ -189,7 +186,7 @@
 //    @Test
 //    @DisplayName("Save Incorrect Data Exception Test")
 //    public void saveIncorrectDataExceptionTest() {
-//        phoneClientDto.setMobile("123");
+//        phoneClientDto.setMobile("");
 //        Throwable exception = assertThrows(EntityNotCorrectException.class, () -> {
 //            adminPhoneService.save(phoneClientDto);
 //        });
@@ -245,40 +242,15 @@
 //        ).thenReturn(client);
 //        //addPhoneToClient(Long clientId, Long phoneId)
 //        when(clientRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-//        when(clientMapper.convertToDtoWithPhone(client)).thenReturn(clientPhoneDto);
-//        when(clientRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(client));
-//        when(clientMapper.convert(clientPhoneDto)).thenReturn(client);
-//        when(clientRepository.save(client)).thenReturn(client);
 //        when(phoneMapper.convert(phoneClientDto)).thenReturn(phone);
-//        when(phoneRepository.save(phone)).thenReturn(phone);
+//        when(clientRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(client));
+//        when(phoneMapper.convertToDtoWithClient(phone)).thenReturn(phoneClientDto);
 //        //findOneById
 //        when(phoneMapper.convertToDtoWithClient(phone)).thenReturn(phoneClientDto);
 //        when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
 //
 //        assertAll(() -> {
-//            assertNotNull(adminPhoneService.addClientToPhone(phoneClientDto.getId(), clientDto));
-//        });
-//    }
-//
-//    @Test
-//    @DisplayName("Add Not Exist Phone To Client Test")
-//    public void addNotExistPhoneToClientTest() {
-//        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-//        when(clientMapper.convert(clientDto)).thenReturn(client);
-//        //addPhoneToClient(Long clientId, Long phoneId)
-//        when(clientRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-//        when(clientMapper.convertToDtoWithPhone(client)).thenReturn(clientPhoneDto);
-//        when(clientRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(client));
-//        when(clientMapper.convert(clientPhoneDto)).thenReturn(client);
-//        when(clientRepository.save(client)).thenReturn(client);
-//        when(phoneMapper.convert(phoneClientDto)).thenReturn(phone);
-//        when(phoneRepository.save(phone)).thenReturn(phone);
-//        //findOneById
-//        when(phoneMapper.convertToDtoWithClient(phone)).thenReturn(phoneClientDto);
-//        when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
-//
-//        assertAll(() -> {
-//            assertNotNull(adminPhoneService.addClientToPhone(phoneClientDto.getId(), clientDto));
+//            assertNotNull(adminPhoneService.addClientByName(phoneClientDto.getId(), clientDto));
 //        });
 //    }
 //
@@ -287,17 +259,16 @@
 //    public void addTariffToPhoneTest() {
 //        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 //        when(tariffRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-//        when(tariffMapper.convertToDtoWithPhone(tariff)).thenReturn(tariffPhoneDto);
+//        when(phoneMapper.convert(phoneClientDto)).thenReturn(phone);
 //        when(tariffRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(tariff));
 //        //findOneById
 //        when(phoneMapper.convertToDtoWithClient(phone)).thenReturn(phoneClientDto);
 //        when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
 //
 //        assertAll(() -> {
-//            assertNotNull(adminPhoneService.addTariffToPhone(phone.getId(), tariff.getId()));
+//            assertNotNull(adminPhoneService.addTariffById(phone.getId(), tariff.getId()));
 //        });
 //    }
-//    // TODO: 26.10.2022 тесты на проверки exception в последних трех методах
 //
 //    @Test
 //    @DisplayName("Add Client To Phone Exception Test")
@@ -305,7 +276,7 @@
 //        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 //
 //        Throwable exception = assertThrows(EntityNotFoundException.class, () -> {
-//            adminPhoneService.addClientToPhone(phoneClientDto.getId(), clientDto);
+//            adminPhoneService.addClientByName(phoneClientDto.getId(), clientDto);
 //        });
 //
 //        assertAll(() -> {
@@ -320,7 +291,7 @@
 //        clientDto.setName("");
 //
 //        Throwable exception = assertThrows(EntityNotCorrectException.class, () -> {
-//            adminPhoneService.addClientToPhone(clientPhoneDto.getId(), clientDto);
+//            adminPhoneService.addClientByName(clientPhoneDto.getId(), clientDto);
 //        });
 //
 //        assertAll(() -> {
@@ -334,7 +305,7 @@
 //        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 //
 //        Throwable exception = assertThrows(EntityNotFoundException.class, () -> {
-//            adminPhoneService.addTariffToPhone(phoneClientDto.getId(), tariffPhoneDto.getId());
+//            adminPhoneService.addTariffById(phoneClientDto.getId(), tariffPhoneDto.getId());
 //        });
 //
 //        assertAll(() -> {
@@ -347,15 +318,15 @@
 //    public void addTariffToPhoneInputExceptionTest() {
 //        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
 //        when(tariffRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-//        when(tariffMapper.convertToDtoWithPhone(tariff)).thenReturn(tariffPhoneDto);
+//        when(phoneMapper.convert(phoneClientDto)).thenReturn(phone);
 //        when(tariffRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(tariff));
 //        //findOneById
 //        when(phoneMapper.convertToDtoWithClient(phone)).thenReturn(phoneClientDto);
 //        when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
-//        phoneClientDto.setTariff(tariffPhoneDto);
+//        phone.setTariff(tariff);
 //
 //        Throwable exception = assertThrows(EntityExistsException.class, () -> {
-//            adminPhoneService.addTariffToPhone(clientPhoneDto.getId(), tariffPhoneDto.getId());
+//            adminPhoneService.addTariffById(clientPhoneDto.getId(), tariffPhoneDto.getId());
 //        });
 //
 //        assertAll(() -> {

@@ -1,7 +1,8 @@
 //package by.step.test.service.user;
 //
+//import by.step.dto.clientDto.ClientDto;
 //import by.step.dto.clientDto.ClientDtoWithoutId;
-//import by.step.dto.phoneDto.PhoneDtoWithoutId;
+//import by.step.dto.phoneDto.PhoneDto;
 //import by.step.entity.Client;
 //import by.step.entity.Phone;
 //import by.step.mapper.ClientMapper;
@@ -11,7 +12,6 @@
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.ArgumentMatchers;
 //import org.mockito.InjectMocks;
 //import org.mockito.Mock;
 //import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,7 +19,6 @@
 //import javax.persistence.EntityNotFoundException;
 //import java.util.ArrayList;
 //import java.util.List;
-//import java.util.Optional;
 //
 //import static org.junit.jupiter.api.Assertions.*;
 //import static org.mockito.Mockito.*;
@@ -38,11 +37,14 @@
 //
 //    private static ClientDtoWithoutId clientDtoWithoutId = new ClientDtoWithoutId();
 //
+//    private static ClientDto clientDto = new ClientDto();
+//
 //    private static Client client = new Client();
 //
 //    private static List<ClientDtoWithoutId> clientDtoWithoutIdList = new ArrayList<>();
 //
 //    private static List<Client> clientList = new ArrayList<>();
+//
 //
 //    @BeforeAll
 //    public static void setup() {
@@ -61,43 +63,47 @@
 //
 //        clientList.add(client);
 //
+//        clientDto.setName("Name");
+//        clientDto.setLastName("LastName");
+//        clientDto.setPatronymic("Patronymic");
+//
 //        clientDtoWithoutId.setName("Name");
 //        clientDtoWithoutId.setLastName("LastName");
 //        clientDtoWithoutId.setPatronymic("Patronymic");
-//        PhoneDtoWithoutId phoneDtoWithoutId = new PhoneDtoWithoutId();
-//        phoneDtoWithoutId.setCountryCode("+375");
-//        phoneDtoWithoutId.setOperatorCode("44");
-//        phoneDtoWithoutId.setMobile("1234567");
-//        phoneDtoWithoutId.setClient(clientDtoWithoutId);
-//        List<PhoneDtoWithoutId> phoneDtoWithoutIdList = new ArrayList<>();
-//        phoneDtoWithoutIdList.add(phoneDtoWithoutId);
-//        clientDtoWithoutId.setPhoneList(phoneDtoWithoutIdList);
+//        PhoneDto phoneDto = new PhoneDto();
+//        phoneDto.setCountryCode("+375");
+//        phoneDto.setOperatorCode("44");
+//        phoneDto.setMobile("1234567");
+//        List<PhoneDto> phoneDtoList = new ArrayList<>();
+//        phoneDtoList.add(phoneDto);
+//        clientDtoWithoutId.setPhoneList(phoneDtoList);
 //
 //        clientDtoWithoutIdList.add(clientDtoWithoutId);
+//
 //    }
 //
 //    @Test
-//    @DisplayName("Find Client By Id Test")
-//    public void findOneByIdTest() {
+//    @DisplayName("Find Client By Name Test")
+//    public void findOneByNameTest() {
 //        when(clientMapper.convertToDtoWithoutId(client)).thenReturn(clientDtoWithoutId);
-//        when(clientRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(client));
-//
+//        when(clientRepository.existsByNameAndLastNameAndPatronymic(clientDto.getName(),
+//                clientDto.getLastName(), clientDto.getPatronymic())).thenReturn(true);
+//        when(clientRepository.findByNameAndLastNameAndPatronymic(clientDto.getName(),
+//                clientDto.getLastName(), clientDto.getPatronymic())).thenReturn(client);
 //        assertAll(() -> {
-//            assertEquals(userClientService.findOneById(1L), clientDtoWithoutId);
-//            assertNotEquals(userClientService.findOneById(1L), client);
+//            assertEquals(userClientService.findOneByName(clientDto), clientDtoWithoutId);
 //        });
 //    }
 //
 //    @Test
-//    @DisplayName("Find Client By Null Id Test")
-//    public void findOneByIdNullTest() {
-//        Long id = 0L;
+//    @DisplayName("Find Client By Null Name Test")
+//    public void findOneByNullNameTest() {
 //        Throwable exception = assertThrows(EntityNotFoundException.class, () -> {
-//            userClientService.findOneById(id);
+//            userClientService.findOneByName(null);
 //        });
 //
 //        assertAll(() -> {
-//            assertEquals("Client #0 not found.", exception.getMessage());
+//            assertEquals("Client  not found.", exception.getMessage());
 //        });
 //    }
 //
@@ -122,6 +128,5 @@
 //            assertEquals(userClientService.getAmountClients(), clientDtoWithoutIdList.size());
 //        });
 //    }
-//
 //
 //}

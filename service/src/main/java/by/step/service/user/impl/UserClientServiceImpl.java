@@ -20,13 +20,13 @@ public class UserClientServiceImpl implements UserClientService {
 
     @Override
     public ClientDtoWithoutId findOneByName(ClientDto clientDto) {
-        if (clientRepository.existsByNameAndLastNameAndPatronymic(
+        if (clientDto != null
+                && clientRepository.existsByNameAndLastNameAndPatronymic(
                 clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic())) {
             return clientMapper.convertToDtoWithoutId(clientRepository.findByNameAndLastNameAndPatronymic(
                     clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic()));
         } else {
-            throw new EntityNotFoundException("Client " + clientDto.getName() +
-                    " " + clientDto.getLastName() + " " + clientDto.getPatronymic() + " not found.");
+            throw new EntityNotFoundException("Client  not found.");
         }
     }
 

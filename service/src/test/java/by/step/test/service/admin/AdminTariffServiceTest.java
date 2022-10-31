@@ -1,11 +1,14 @@
 //package by.step.test.service.admin;
 //
 //import by.step.dto.phoneDto.PhoneClientDto;
+//import by.step.dto.phoneDto.PhoneDto;
 //import by.step.dto.tariffDto.TariffDto;
 //import by.step.dto.tariffDto.TariffPhoneDto;
 //import by.step.entity.Phone;
 //import by.step.entity.Tariff;
+//import by.step.mapper.PhoneMapper;
 //import by.step.mapper.TariffMapper;
+//import by.step.repository.PhoneRepository;
 //import by.step.repository.TariffRepository;
 //import by.step.service.admin.impl.AdminTariffServiceImpl;
 //import by.step.service.exception.EntityNotCorrectException;
@@ -35,10 +38,17 @@
 //    @Mock
 //    private TariffMapper tariffMapper;
 //
+//    @Mock
+//    private PhoneRepository phoneRepository;
+//
 //    @InjectMocks
 //    private AdminTariffServiceImpl adminTariffService;
 //
 //    private static Tariff tariff = new Tariff();
+//
+//    private static Phone phone = new Phone();
+//
+//    private static PhoneDto phoneDto = new PhoneDto();
 //
 //    private static TariffPhoneDto tariffPhoneDto = new TariffPhoneDto();
 //
@@ -56,6 +66,7 @@
 //        tariff.setPhoneList(new ArrayList<>());
 //        tariffList.add(tariff);
 //
+//        tariffPhoneDto.setId(1L);
 //        tariffPhoneDto.setName("Name");
 //        tariffPhoneDto.setMinutes(100);
 //        tariffPhoneDto.setMegabytes(100);
@@ -73,6 +84,15 @@
 //        tariffDto3.setName("tariffDto3");
 //        tariffDto3.setPrice(2.0);
 //        Collections.addAll(tariffPhoneDtoList, tariffDto1, tariffDto2, tariffDto3);
+//
+//        phone.setId(1L);
+//        phone.setCountryCode("+375");
+//        phone.setOperatorCode("44");
+//        phone.setMobile("1234567");
+//
+//        phoneDto.setCountryCode("+375");
+//        phoneDto.setOperatorCode("44");
+//        phoneDto.setMobile("1234567");
 //
 //    }
 //
@@ -196,6 +216,59 @@
 //
 //        assertAll(() -> {
 //            assertEquals(adminTariffService.sortTariffByPrice(), tariffPhoneDtoList);
+//        });
+//    }
+//
+//    @Test
+//    @DisplayName("Add Phone(exist) To Tariff Test")
+//    public void addExistPhoneToTariffTest() {
+//        when(tariffRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+//        when(phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
+//                ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())
+//        ).thenReturn(true);
+//        when(phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
+//                ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())
+//        ).thenReturn(phone);
+//        //addPhoneToClient(Long clientId, Long phoneId)
+//        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+//        when(tariffMapper.convert(tariffPhoneDto)).thenReturn(tariff);
+//        when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
+//        when(tariffMapper.convertToDtoWithPhone(tariff)).thenReturn(tariffPhoneDto);
+//        //findOneById
+//        when(tariffMapper.convertToDtoWithPhone(tariff)).thenReturn(tariffPhoneDto);
+//        when(tariffRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(tariff));
+//
+//        assertAll(() -> {
+//            assertNotNull(adminTariffService.addPhoneByNumber(tariffPhoneDto.getId(), phoneDto));
+//        });
+//    }
+//
+//    @Test
+//    @DisplayName("Add Phone To Tariff Exception Test")
+//    public void addPhoneToTariffExceptionTest() {
+//        when(tariffRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
+//
+//        Throwable exception = assertThrows(EntityNotFoundException.class, () -> {
+//            adminTariffService.addPhoneByNumber(tariffPhoneDto.getId(), phoneDto);
+//        });
+//
+//        assertAll(() -> {
+//            assertEquals("Tariff id# " + tariffPhoneDto.getId() + " not found.", exception.getMessage());
+//        });
+//    }
+//
+//    @Test
+//    @DisplayName("Add Phone To Tariff Input Exception Test")
+//    public void addPhoneToTariffInputExceptionTest() {
+//        when(tariffRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
+//        phoneDto.setMobile("");
+//
+//        Throwable exception = assertThrows(EntityNotCorrectException.class, () -> {
+//            adminTariffService.addPhoneByNumber(tariffPhoneDto.getId(), phoneDto);
+//        });
+//
+//        assertAll(() -> {
+//            assertEquals("Check input sources.", exception.getMessage());
 //        });
 //    }
 //}

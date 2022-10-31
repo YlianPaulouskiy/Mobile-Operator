@@ -74,31 +74,6 @@
 //    }
 //
 //    @Test
-//    @DisplayName("Find One Tariff By Id Test")
-//    public void findOneByIdTest() {
-//        when(tariffMapper.convertToDtoWithoutId(tariff)).thenReturn(tariffDtoWithoutId);
-//        when(tariffRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(tariff));
-//
-//        assertAll(() -> {
-//            assertEquals(userTariffService.findOneById(1L), tariffDtoWithoutId);
-//            assertNotEquals(userTariffService.findOneById(1L), tariff);
-//        });
-//    }
-//
-//    @Test
-//    @DisplayName("Find One Tariff By Null Id Test")
-//    public void findOneByIdNullTest() {
-//        Long id = 0L;
-//        Throwable exception = assertThrows(EntityNotFoundException.class,
-//                () -> userTariffService.findOneById(id)
-//        );
-//
-//        assertAll( () -> {
-//            assertEquals("Tariff #0 not found.", exception.getMessage());
-//        });
-//    }
-//
-//    @Test
 //    @DisplayName("Find All Tariffs Test")
 //    public void findAllTest() {
 //        when(tariffMapper.convertToDtoListWithoutId(tariffList)).thenReturn(tariffDtoWithoutIdList);

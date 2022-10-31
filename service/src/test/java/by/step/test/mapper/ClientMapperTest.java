@@ -37,8 +37,6 @@
 //        client.setLastName("LastName");
 //        client.setPatronymic("Patronymic");
 //        client.setDateCreation(new Date());
-//        client.setLastModified(new Date());
-//        client.setVersion(1L);
 //        Phone firstPhone = new Phone();
 //        Phone secondPhone = new Phone();
 //        List<Phone> phoneList = new ArrayList<>();
@@ -64,8 +62,6 @@
 //        assertThat(client.getPatronymic()).isEqualTo(clientDtoWithId.getPatronymic());
 //        assertThat(client.getId()).isEqualTo(clientDtoWithId.getId());
 //        assertThat(new SimpleDateFormat().format(client.getDateCreation())).isEqualTo(clientDtoWithId.getDateCreation());
-//        assertThat(new SimpleDateFormat().format(client.getLastModified())).isEqualTo(clientDtoWithId.getLastModified());
-//        assertThat(client.getVersion()).isEqualTo(clientDtoWithId.getVersion());
 //    }
 //
 //    @Test
@@ -77,8 +73,6 @@
 //        assertThat(client.getPatronymic()).isEqualTo(clientPhoneDto.getPatronymic());
 //        assertThat(client.getId()).isEqualTo(clientPhoneDto.getId());
 //        assertThat(new SimpleDateFormat().format(client.getDateCreation())).isEqualTo(clientPhoneDto.getDateCreation());
-//        assertThat(new SimpleDateFormat().format(client.getLastModified())).isEqualTo(clientPhoneDto.getLastModified());
-//        assertThat(client.getVersion()).isEqualTo(clientPhoneDto.getVersion());
 //        assertThat(client.getPhoneList().size()).isEqualTo(clientPhoneDto.getPhoneList().size());
 //    }
 //
@@ -102,8 +96,6 @@
 //        assertThat(clientDtoWithId.getPatronymic()).isEqualTo(client.getPatronymic());
 //        assertThat(clientDtoWithId.getId()).isEqualTo(client.getId());
 //        assertThat(clientDtoWithId.getDateCreation()).isEqualTo(new SimpleDateFormat().format(client.getDateCreation()));
-//        assertThat(clientDtoWithId.getLastModified()).isEqualTo(new SimpleDateFormat().format(client.getLastModified()));
-//        assertThat(clientDtoWithId.getVersion()).isEqualTo(client.getVersion());
 //    }
 //
 //    @Test
@@ -116,8 +108,6 @@
 //        assertThat(clientPhoneDto.getPatronymic()).isEqualTo(client.getPatronymic());
 //        assertThat(clientPhoneDto.getId()).isEqualTo(client.getId());
 //        assertThat(clientPhoneDto.getDateCreation()).isEqualTo(new SimpleDateFormat().format(client.getDateCreation()));
-//        assertThat(clientPhoneDto.getLastModified()).isEqualTo(new SimpleDateFormat().format(client.getLastModified()));
-//        assertThat(clientPhoneDto.getVersion()).isEqualTo(client.getVersion());
 //        assertThat(clientPhoneDto.getPhoneList().size()).isEqualTo(client.getPhoneList().size());
 //    }
 //

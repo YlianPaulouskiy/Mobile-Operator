@@ -1,6 +1,7 @@
 package by.step.controller.user.impl;
 
 import by.step.controller.user.UserClientController;
+import by.step.dto.clientDto.ClientDto;
 import by.step.dto.clientDto.ClientDtoWithoutId;
 import by.step.service.user.UserClientService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,10 +20,10 @@ public class UserClientControllerImpl implements UserClientController {
 
     private final UserClientService userClientService;
 
-    @Operation(summary = "Найти клиента по Id", description = "Выводит клиента, соответствующего заданному Id")
+    @Operation(summary = "Найти клиента по ФИО", description = "Выводит клиента, соответствующего заданному ФИО")
     @Override
-    public ClientDtoWithoutId findOneById(Long id) {
-        return userClientService.findOneById(id);
+    public ClientDtoWithoutId findOneByName(ClientDto clientDto) {
+        return userClientService.findOneByName(clientDto);
     }
 
     @Operation(summary = "Найти всех клиентов", description = "Выводит всех существующих клиентов")

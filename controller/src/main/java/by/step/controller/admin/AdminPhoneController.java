@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public interface AdminPhoneController extends BaseAdminController<PhoneClientDto> {
 
-    @PostMapping("/addClientToPhoneById")
+    @PostMapping("/addClientById")
     PhoneClientDto addClientToPhone(@RequestParam Long phoneId, @RequestParam Long clientId);
 
-    @PostMapping("/addClientToPhoneByName")
+    @PostMapping("/addClientByName")
     PhoneClientDto addClientToPhone(@RequestParam Long phoneId, @RequestBody ClientDto clientDto);
 
-    @PostMapping("/addTariffToPhoneById")
+    @PostMapping("/addTariffById")
     PhoneClientDto addTariffToPhone(@RequestParam Long phoneId, @RequestParam Long tariffId);
 }

@@ -35,8 +35,6 @@
 //        phone.setOperatorCode("33");
 //        phone.setMobile("1234567");
 //        phone.setDateCreation(new Date());
-//        phone.setLastModified(new Date());
-//        phone.setVersion(1L);
 //        phone.setTariff(new Tariff());
 //        phone.setClient(new Client());
 //    }
@@ -59,8 +57,6 @@
 //        assertThat(phone.getMobile()).isEqualTo(phoneDtoWithId.getMobile());
 //        assertThat(phone.getId()).isEqualTo(phoneDtoWithId.getId());
 //        assertThat(new SimpleDateFormat().format(phone.getDateCreation())).isEqualTo(phoneDtoWithId.getDateCreation());
-//        assertThat(new SimpleDateFormat().format(phone.getLastModified())).isEqualTo(phoneDtoWithId.getLastModified());
-//        assertThat(phone.getVersion()).isEqualTo(phoneDtoWithId.getVersion());
 //    }
 //
 //    @Test
@@ -72,8 +68,6 @@
 //        assertThat(phone.getMobile()).isEqualTo(phoneClientDto.getMobile());
 //        assertThat(phone.getId()).isEqualTo(phoneClientDto.getId());
 //        assertThat(new SimpleDateFormat().format(phone.getDateCreation())).isEqualTo(phoneClientDto.getDateCreation());
-//        assertThat(new SimpleDateFormat().format(phone.getLastModified())).isEqualTo(phoneClientDto.getLastModified());
-//        assertThat(phone.getVersion()).isEqualTo(phoneClientDto.getVersion());
 //        assertThat(phoneClientDto.getClient()).isNotNull();
 //        assertThat(phoneClientDto.getTariff()).isNotNull();
 //    }
@@ -98,8 +92,6 @@
 //        assertThat(phoneDtoWithId.getMobile()).isEqualTo(phone.getMobile());
 //        assertThat(phoneDtoWithId.getId()).isEqualTo(phone.getId());
 //        assertThat(phoneDtoWithId.getDateCreation()).isEqualTo(new SimpleDateFormat().format(phone.getDateCreation()));
-//        assertThat(phoneDtoWithId.getLastModified()).isEqualTo(new SimpleDateFormat().format(phone.getLastModified()));
-//        assertThat(phoneDtoWithId.getVersion()).isEqualTo(phone.getVersion());
 //    }
 //
 //    @Test
@@ -112,8 +104,6 @@
 //        assertThat(phoneClientDto.getMobile()).isEqualTo(phone.getMobile());
 //        assertThat(phoneClientDto.getId()).isEqualTo(phone.getId());
 //        assertThat(phoneClientDto.getDateCreation()).isEqualTo(new SimpleDateFormat().format(phone.getDateCreation()));
-//        assertThat(phoneClientDto.getLastModified()).isEqualTo(new SimpleDateFormat().format(phone.getLastModified()));
-//        assertThat(phoneClientDto.getVersion()).isEqualTo(phone.getVersion());
 //        assertThat(phone.getClient()).isNotNull();
 //        assertThat(phone.getTariff()).isNotNull();
 //    }

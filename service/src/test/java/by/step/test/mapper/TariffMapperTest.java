@@ -35,8 +35,6 @@
 //        tariff.setMinutes(500);
 //        tariff.setMegabytes(100000);
 //        tariff.setDateCreation(new Date());
-//        tariff.setLastModified(new Date());
-//        tariff.setVersion(1L);
 //        List<Phone> phoneList = new ArrayList<>();
 //        Collections.addAll(phoneList, new Phone(), new Phone());
 //        tariff.setPhoneList(phoneList);
@@ -60,8 +58,6 @@
 //        assertThat(tariff.getMegabytes()).isEqualTo(tariffDtoWithId.getMegabytes());
 //        assertThat(tariff.getId()).isEqualTo(tariffDtoWithId.getId());
 //        assertThat(new SimpleDateFormat().format(tariff.getDateCreation())).isEqualTo(tariffDtoWithId.getDateCreation());
-//        assertThat(new SimpleDateFormat().format(tariff.getLastModified())).isEqualTo(tariffDtoWithId.getLastModified());
-//        assertThat(tariff.getVersion()).isEqualTo(tariffDtoWithId.getVersion());
 //    }
 //
 //    @Test
@@ -73,8 +69,6 @@
 //        assertThat(tariff.getMegabytes()).isEqualTo(tariffPhoneDto.getMegabytes());
 //        assertThat(tariff.getId()).isEqualTo(tariffPhoneDto.getId());
 //        assertThat(new SimpleDateFormat().format(tariff.getDateCreation())).isEqualTo(tariffPhoneDto.getDateCreation());
-//        assertThat(new SimpleDateFormat().format(tariff.getLastModified())).isEqualTo(tariffPhoneDto.getLastModified());
-//        assertThat(tariff.getVersion()).isEqualTo(tariffPhoneDto.getVersion());
 //        assertThat(tariffPhoneDto.getPhoneList()).isNotNull();
 //    }
 //
@@ -98,8 +92,6 @@
 //        assertThat(tariffDtoWithId.getMegabytes()).isEqualTo(tariff.getMegabytes());
 //        assertThat(tariffDtoWithId.getId()).isEqualTo(tariff.getId());
 //        assertThat(tariffDtoWithId.getDateCreation()).isEqualTo(new SimpleDateFormat().format(tariff.getDateCreation()));
-//        assertThat(tariffDtoWithId.getLastModified()).isEqualTo(new SimpleDateFormat().format(tariff.getLastModified()));
-//        assertThat(tariffDtoWithId.getVersion()).isEqualTo(tariff.getVersion());
 //    }
 //
 //    @Test
@@ -112,8 +104,6 @@
 //        assertThat(tariffPhoneDto.getMegabytes()).isEqualTo(tariff.getMegabytes());
 //        assertThat(tariffPhoneDto.getId()).isEqualTo(tariff.getId());
 //        assertThat(tariffPhoneDto.getDateCreation()).isEqualTo(new SimpleDateFormat().format(tariff.getDateCreation()));
-//        assertThat(tariffPhoneDto.getLastModified()).isEqualTo(new SimpleDateFormat().format(tariff.getLastModified()));
-//        assertThat(tariffPhoneDto.getVersion()).isEqualTo(tariff.getVersion());
 //        assertThat(tariff.getPhoneList()).isNotNull();
 //    }
 //

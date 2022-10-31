@@ -42,9 +42,6 @@
 //    @Mock
 //    private PhoneRepository phoneRepository;
 //
-//    @Mock
-//    private PhoneMapper phoneMapper;
-//
 //    @InjectMocks
 //    private AdminClientServiceImpl adminClientService;
 //
@@ -139,8 +136,6 @@
 //        when(clientMapper.convertToDtoWithPhone(ArgumentMatchers.any(Client.class))).thenReturn(clientPhoneDto);
 //        when(clientRepository.save(ArgumentMatchers.any(Client.class))).thenReturn(client);
 //        when(clientMapper.convert(ArgumentMatchers.any(ClientPhoneDto.class))).thenReturn(client);
-//        when(clientRepository.existsByNameAndLastNameAndPatronymic(ArgumentMatchers.anyString(),
-//                ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(true);
 //
 //        assertAll(() -> {
 //            assertEquals(adminClientService.save(clientPhoneDto), clientPhoneDto);
@@ -150,6 +145,8 @@
 //    @Test
 //    @DisplayName("Save Exists Exception Text")
 //    public void saveExistsExceptionTest() {
+//        when(clientRepository.existsByNameAndLastNameAndPatronymic(ArgumentMatchers.anyString(),
+//                ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(true);
 //        Throwable exception = assertThrows(EntityExistsException.class, () -> {
 //            adminClientService.save(clientPhoneDto);
 //        });
@@ -161,8 +158,6 @@
 //    @Test
 //    @DisplayName("Save Incorrect Data Exception Test")
 //    public void saveIncorrectDataExceptionTest() {
-//        when(clientRepository.existsByNameAndLastNameAndPatronymic(ArgumentMatchers.anyString(),
-//                ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(true);
 //        clientPhoneDto.setName("");
 //        Throwable exception = assertThrows(EntityNotCorrectException.class, () -> {
 //            adminClientService.save(clientPhoneDto);
@@ -217,40 +212,15 @@
 //        ).thenReturn(phone);
 //        //addPhoneToClient(Long clientId, Long phoneId)
 //        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-//        when(phoneMapper.convertToDtoWithClient(phone)).thenReturn(phoneClientDto);
-//        when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
 //        when(clientMapper.convert(clientPhoneDto)).thenReturn(client);
-//        when(clientRepository.save(client)).thenReturn(client);
-//        when(phoneMapper.convert(phoneClientDto)).thenReturn(phone);
-//        when(phoneRepository.save(phone)).thenReturn(phone);
+//        when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
+//        when(clientMapper.convertToDtoWithPhone(client)).thenReturn(clientPhoneDto);
 //        //findOneById
 //        when(clientMapper.convertToDtoWithPhone(client)).thenReturn(clientPhoneDto);
 //        when(clientRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(client));
 //
 //        assertAll(() -> {
-//            assertNotNull(adminClientService.addPhoneToClient(clientPhoneDto.getId(), phoneDto));
-//        });
-//    }
-//
-//    @Test
-//    @DisplayName("Add Not Exist Phone By Id To Client Test")
-//    public void addNotExistPhoneToClientTest() {
-//        when(clientRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-//        when(phoneMapper.convert(phoneDto)).thenReturn(phone);
-//        //addPhoneToClient(Long clientId, Long phoneId)
-//        when(phoneRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-//        when(phoneMapper.convertToDtoWithClient(phone)).thenReturn(phoneClientDto);
-//        when(phoneRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(phone));
-//        when(clientMapper.convert(clientPhoneDto)).thenReturn(client);
-//        when(clientRepository.save(client)).thenReturn(client);
-//        when(phoneMapper.convert(phoneClientDto)).thenReturn(phone);
-//        when(phoneRepository.save(phone)).thenReturn(phone);
-//        //findOneById
-//        when(clientMapper.convertToDtoWithPhone(client)).thenReturn(clientPhoneDto);
-//        when(clientRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(client));
-//
-//        assertAll(() -> {
-//            assertNotNull(adminClientService.addPhoneToClient(clientPhoneDto.getId(), phoneDto));
+//            assertNotNull(adminClientService.addPhoneByNumber(clientPhoneDto.getId(), phoneDto));
 //        });
 //    }
 //
@@ -260,7 +230,7 @@
 //        when(clientRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 //
 //        Throwable exception = assertThrows(EntityNotFoundException.class, () -> {
-//            adminClientService.addPhoneToClient(clientPhoneDto.getId(), phoneDto);
+//            adminClientService.addPhoneByNumber(clientPhoneDto.getId(), phoneDto);
 //        });
 //
 //        assertAll(() -> {
@@ -272,10 +242,10 @@
 //    @DisplayName("Add Phone To Client Input Exception Test")
 //    public void addPhoneToClientInputExceptionTest() {
 //        when(clientRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(true);
-//        phoneDto.setMobile("123");
+//        phoneDto.setMobile("");
 //
 //        Throwable exception = assertThrows(EntityNotCorrectException.class, () -> {
-//            adminClientService.addPhoneToClient(clientPhoneDto.getId(), phoneDto);
+//            adminClientService.addPhoneByNumber(clientPhoneDto.getId(), phoneDto);
 //        });
 //
 //        assertAll(() -> {

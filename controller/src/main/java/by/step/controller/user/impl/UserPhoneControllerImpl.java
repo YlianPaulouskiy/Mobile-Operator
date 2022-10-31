@@ -1,6 +1,7 @@
 package by.step.controller.user.impl;
 
 import by.step.controller.user.UserPhoneController;
+import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.phoneDto.PhoneDtoWithoutId;
 import by.step.service.user.UserPhoneService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,8 +22,8 @@ public class UserPhoneControllerImpl implements UserPhoneController {
 
     @Operation(summary = "Найти телефон по Id", description = "Выводит данные о телефоне с заданным Id")
     @Override
-    public PhoneDtoWithoutId findOneById(Long id) {
-        return userPhoneService.findOneById(id);
+    public PhoneDtoWithoutId findOneByNumber(PhoneDto phoneDto) {
+        return userPhoneService.findOneByNumber(phoneDto);
     }
 
     @Operation(summary = "Найти все телефоны", description = "Выводит все существующие телефоны")

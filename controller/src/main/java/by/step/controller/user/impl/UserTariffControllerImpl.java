@@ -20,12 +20,6 @@ public class UserTariffControllerImpl implements UserTariffController {
 
     private final UserTariffService userTariffService;
 
-    @Operation(summary = "Найти тариф по Id", description = "Выводит тариф соответствующий заданному Id")
-    @Override
-    public TariffDtoWithoutId findOneById(Long id) {
-        return userTariffService.findOneById(id);
-    }
-
     @Operation(summary = "Найти все тарифы", description = "Выводит все существующие тарифы")
     @Override
     public List<TariffDtoWithoutId> findAll() {
