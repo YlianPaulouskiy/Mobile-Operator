@@ -12,13 +12,13 @@ import java.util.List;
 @Data
 public class Client extends BaseEntity {
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "name", nullable = false, length = 40)
     private String name;
 
-    @Column(name = "last_name", length = 25)
+    @Column(name = "last_name", nullable = false, length = 40)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(name = "patronymic", nullable = false, length = 40)
     private String patronymic;
 
     //---------------------------------------------------------------------------------

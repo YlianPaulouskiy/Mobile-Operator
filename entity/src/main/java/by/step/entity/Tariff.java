@@ -15,10 +15,13 @@ public class Tariff extends BaseEntity {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
+    @Column(name = "minutes")
     private Integer minutes;
 
+    @Column(name = "megabytes")
     private Integer megabytes;
 
+    @Column(name = "price")
     private Double price;
 
     //---------------------------------------------------------------------------------

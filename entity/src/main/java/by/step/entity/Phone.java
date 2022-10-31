@@ -11,13 +11,13 @@ import javax.persistence.*;
 @Data
 public class Phone extends BaseEntity {
 
-    @Column(name = "country", nullable = false, length = 4)
+    @Column(name = "country", nullable = false, length = 20)
     private String countryCode;
 
-    @Column(name = "operator", nullable = false, length = 2)
+    @Column(name = "operator", nullable = false, length = 20)
     private  String operatorCode;
 
-    @Column(name = "mobile", nullable = false, length = 7)
+    @Column(name = "mobile", nullable = false, length = 20)
     private String mobile;
 
     //---------------------------------------------------------------------------------
