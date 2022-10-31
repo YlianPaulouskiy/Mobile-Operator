@@ -48,20 +48,20 @@ public class AdminPhoneControllerImpl implements AdminPhoneController {
             "если он до этого момента не был привязан, при этом клиент задается при помощи Id")
     @Override
     public PhoneClientDto addClientToPhone(Long phoneId, Long clientId) {
-        return adminPhoneService.addClientToPhone(phoneId, clientId);
+        return adminPhoneService.addClientById(phoneId, clientId);
     }
 
     @Operation(summary = "Добавить клиента к телефону", description = "Привязывает клиента к телефону, " +
             " если он до этого был не привязан, при этом клиент задается явно")
     @Override
     public PhoneClientDto addClientToPhone(Long phoneId, ClientDto clientDto) {
-        return adminPhoneService.addClientToPhone(phoneId, clientDto);
+        return adminPhoneService.addClientByName(phoneId, clientDto);
     }
 
     @Operation(summary = "Добавить тариф к номеру телефона", description = "Привязывает тарифф к номеру телефона, " +
             " если он до этого был не привязан, или перепривязывает новый тариф,  при этом тариф задается с помощью Id")
     @Override
     public PhoneClientDto addTariffToPhone(Long phoneId, Long tariffId) {
-        return adminPhoneService.addTariffToPhone(phoneId, tariffId);
+        return adminPhoneService.addTariffById(phoneId, tariffId);
     }
 }

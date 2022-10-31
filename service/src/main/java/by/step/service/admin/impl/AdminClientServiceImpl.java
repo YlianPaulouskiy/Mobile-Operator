@@ -1,7 +1,6 @@
 package by.step.service.admin.impl;
 
 import by.step.dto.clientDto.ClientPhoneDto;
-import by.step.dto.phoneDto.PhoneClientDto;
 import by.step.dto.phoneDto.PhoneDto;
 import by.step.entity.Client;
 import by.step.entity.Phone;
@@ -72,7 +71,7 @@ public class AdminClientServiceImpl implements AdminClientService {
     }
 
     @Override
-    public ClientPhoneDto addPhoneToClient(Long clientId, PhoneDto phoneDto) {
+    public ClientPhoneDto addPhoneByNumber(Long clientId, PhoneDto phoneDto) {
         if (clientRepository.existsById(clientId)) {
             if (phoneDto.getCountryCode().length() != 0
                     && phoneDto.getOperatorCode().length() != 0
@@ -81,11 +80,11 @@ public class AdminClientServiceImpl implements AdminClientService {
                         phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {
                     Phone phone = phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
                             phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile());
-                    return addPhoneToClient(clientId, phone.getId());
+                    return addPhoneById(clientId, phone.getId());
                 } else {
                     Phone phone = phoneMapper.convert(phoneDto);
                     phone = phoneRepository.save(phone);
-                    return addPhoneToClient(clientId, phone.getId());
+                    return addPhoneById(clientId, phone.getId());
                 }
             } else {
                 throw new EntityNotCorrectException("Check input sources.");
@@ -96,7 +95,7 @@ public class AdminClientServiceImpl implements AdminClientService {
     }
 
     @Override
-    public ClientPhoneDto addPhoneToClient(Long clientId, Long phoneId) {
+    public ClientPhoneDto addPhoneById(Long clientId, Long phoneId) {
         if (clientRepository.existsById(clientId) && phoneRepository.existsById(phoneId)) {
             Client client = clientMapper.convert(findOneById(clientId));
             Phone phone = phoneRepository.findById(phoneId).get();

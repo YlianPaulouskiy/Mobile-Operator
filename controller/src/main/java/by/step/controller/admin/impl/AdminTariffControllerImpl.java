@@ -1,6 +1,7 @@
 package by.step.controller.admin.impl;
 
 import by.step.controller.admin.AdminTariffController;
+import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.tariffDto.TariffPhoneDto;
 import by.step.service.admin.AdminTariffService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,5 +58,19 @@ public class AdminTariffControllerImpl implements AdminTariffController {
                                                  Integer minutesTo, Integer megabytesFrom, Integer megabytesTo) {
         return adminTariffService.findByPriceAndMinutesAndMegabytes(priceFrom, priceTo, minutesFrom,
                 minutesTo, megabytesFrom, megabytesTo);
+    }
+
+    @Operation(summary = "Добавить Телефон по Id", description = "Добавляет телефона к тарифу по Id," +
+            "если телефон не использует данные тариф")
+    @Override
+    public TariffPhoneDto addPhoneById(Long tariffId, Long phoneId) {
+        return adminTariffService.addPhoneById(tariffId, phoneId);
+    }
+
+    @Operation(summary = "Добавить Телефон по номеру", description = "Добавляет телефона к тарифу по номеру," +
+            "если телефон не использует данные тариф")
+    @Override
+    public TariffPhoneDto addPhoneByNumber(Long tariffId, PhoneDto phoneDto) {
+        return adminTariffService.addPhoneByNumber(tariffId, phoneDto);
     }
 }

@@ -6,10 +6,10 @@ import by.step.service.parent.BaseAdminService;
 
 public interface AdminPhoneService extends BaseAdminService<PhoneClientDto> {
 
-    PhoneClientDto addClientToPhone(Long phoneId, Long clientId);
+    PhoneClientDto addClientById(Long phoneId, Long clientId);
 
-    PhoneClientDto addClientToPhone(Long phoneId, ClientDto clientDto);
+    PhoneClientDto addClientByName(Long phoneId, ClientDto clientDto);
 
-    PhoneClientDto addTariffToPhone(Long phoneId, Long tariffId);
+    PhoneClientDto addTariffById(Long phoneId, Long tariffId);
 
 }

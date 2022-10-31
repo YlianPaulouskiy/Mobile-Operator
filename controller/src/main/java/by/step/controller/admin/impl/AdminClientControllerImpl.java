@@ -54,13 +54,13 @@ public class AdminClientControllerImpl implements AdminClientController {
             " если он до этого был не привязан, при этом телефон задается явно")
     @Override
     public ClientPhoneDto addPhoneToClient(Long clientId, PhoneDto phoneDto) {
-        return adminClientService.addPhoneToClient(clientId, phoneDto);
+        return adminClientService.addPhoneByNumber(clientId, phoneDto);
     }
 
     @Operation(summary = "Добавить телефон к клиенту", description = "Привязывает телефон к клиенту, " +
             "если он до этого момента не был привязан, при этом телефон задается при помощи Id")
     @Override
     public ClientPhoneDto addPhoneToClient(Long clientId, Long phoneId) {
-        return adminClientService.addPhoneToClient(clientId, phoneId);
+        return adminClientService.addPhoneById(clientId, phoneId);
     }
 }

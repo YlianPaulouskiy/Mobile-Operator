@@ -1,7 +1,13 @@
 package by.step.service.admin.impl;
 
+import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.tariffDto.TariffPhoneDto;
+import by.step.entity.Client;
+import by.step.entity.Phone;
+import by.step.entity.Tariff;
+import by.step.mapper.PhoneMapper;
 import by.step.mapper.TariffMapper;
+import by.step.repository.PhoneRepository;
 import by.step.repository.TariffRepository;
 import by.step.service.admin.AdminTariffService;
 import by.step.service.exception.EntityNotCorrectException;
@@ -19,6 +25,8 @@ public class AdminTariffServiceImpl implements AdminTariffService {
 
     private final TariffRepository tariffRepository;
     private final TariffMapper tariffMapper;
+    private final PhoneRepository phoneRepository;
+    private final PhoneMapper phoneMapper;
 
     @Override
     public TariffPhoneDto findOneById(Long id) {
@@ -82,5 +90,49 @@ public class AdminTariffServiceImpl implements AdminTariffService {
                 .findTariffByPriceBetweenAndMinutesBetweenAndMegabytesBetween(
                 priceFrom, priceTo, minutesFrom, minutesTo, megabytesFrom, megabytesTo)
         );
+    }
+
+    @Override
+    public TariffPhoneDto addPhoneById(Long tariffId, Long phoneId) {
+        if (tariffRepository.existsById(tariffId) && phoneRepository.existsById(phoneId)) {
+            Tariff tariff = tariffMapper.convert(findOneById(tariffId));
+            Phone phone = phoneRepository.findById(phoneId).get();
+            if (phone.getTariff() == null
+                    || !phone.getTariff().getId().equals(tariffId)) {
+                tariff.getPhoneList().add(phone);
+                phone.setTariff(tariff);
+                tariffRepository.save(tariff);
+                phoneRepository.save(phone);
+                return tariffMapper.convertToDtoWithPhone(tariff);
+            } else {
+                throw new EntityExistsException("Tariff already exist this phone.");
+            }
+        } else {
+            throw new EntityNotFoundException("Tariff id " + tariffId + " or phone id " + phoneId + " doesn't exist.");
+        }
+    }
+
+    @Override
+    public TariffPhoneDto addPhoneByNumber(Long tariffId, PhoneDto phoneDto) {
+        if (tariffRepository.existsById(tariffId)) {
+            if (phoneDto.getCountryCode().length() != 0
+                    && phoneDto.getOperatorCode().length() != 0
+                    && phoneDto.getMobile().length() != 0) {
+                if (phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
+                        phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {
+                    Phone phone = phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
+                            phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile());
+                    return addPhoneById(tariffId, phone.getId());
+                } else {
+                    Phone phone = phoneMapper.convert(phoneDto);
+                    phone = phoneRepository.save(phone);
+                    return addPhoneById(tariffId, phone.getId());
+                }
+            } else {
+                throw new EntityNotCorrectException("Check input sources.");
+            }
+        } else {
+            throw new EntityNotFoundException("Tariff id# " + tariffId + " not found.");
+        }
     }
 }

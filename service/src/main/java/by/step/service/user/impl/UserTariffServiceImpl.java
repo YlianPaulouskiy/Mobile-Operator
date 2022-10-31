@@ -20,15 +20,6 @@ public class UserTariffServiceImpl implements UserTariffService {
     private final TariffMapper tariffMapper;
 
     @Override
-    public TariffDtoWithoutId findOneById(Long id) {
-        return tariffMapper.convertToDtoWithoutId(
-                tariffRepository.findById(id).orElseThrow(
-                        () -> new EntityNotFoundException("Tariff #" + id + " not found.")
-                )
-        );
-    }
-
-    @Override
     public List<TariffDtoWithoutId> findAll() {
         return tariffMapper.convertToDtoListWithoutId(tariffRepository.findAll());
     }

@@ -8,8 +8,8 @@ public interface AdminClientService extends BaseAdminService<ClientPhoneDto> {
 
     Long getAmountClients();
 
-    ClientPhoneDto addPhoneToClient(Long clientId, PhoneDto phoneDto);
+    ClientPhoneDto addPhoneByNumber(Long clientId, PhoneDto phoneDto);
 
-    ClientPhoneDto addPhoneToClient(Long clientId, Long phoneId);
+    ClientPhoneDto addPhoneById(Long clientId, Long phoneId);
 
 }

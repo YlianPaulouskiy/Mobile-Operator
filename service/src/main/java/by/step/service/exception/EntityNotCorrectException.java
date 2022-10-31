@@ -11,4 +11,5 @@ public class EntityNotCorrectException extends RuntimeException {
     public EntityNotCorrectException(String message) {
         super(message);
     }
+
 }

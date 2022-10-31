@@ -1,5 +1,6 @@
 package by.step.service.user.impl;
 
+import by.step.dto.clientDto.ClientDto;
 import by.step.dto.clientDto.ClientDtoWithoutId;
 import by.step.mapper.ClientMapper;
 import by.step.repository.ClientRepository;
@@ -18,12 +19,15 @@ public class UserClientServiceImpl implements UserClientService {
     private final ClientMapper clientMapper;
 
     @Override
-    public ClientDtoWithoutId findOneById(Long id) {
-        return clientMapper.convertToDtoWithoutId(
-                clientRepository.findById(id).orElseThrow(
-                        () -> new EntityNotFoundException("Client #" + id + " not found.")
-                )
-        );
+    public ClientDtoWithoutId findOneByName(ClientDto clientDto) {
+        if (clientRepository.existsByNameAndLastNameAndPatronymic(
+                clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic())) {
+            return clientMapper.convertToDtoWithoutId(clientRepository.findByNameAndLastNameAndPatronymic(
+                    clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic()));
+        } else {
+            throw new EntityNotFoundException("Client " + clientDto.getName() +
+                    " " + clientDto.getLastName() + " " + clientDto.getPatronymic() + " not found.");
+        }
     }
 
     @Override

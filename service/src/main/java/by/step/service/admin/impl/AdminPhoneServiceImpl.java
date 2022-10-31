@@ -1,15 +1,12 @@
 package by.step.service.admin.impl;
 
 import by.step.dto.clientDto.ClientDto;
-import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.dto.phoneDto.PhoneClientDto;
-import by.step.dto.tariffDto.TariffPhoneDto;
 import by.step.entity.Client;
 import by.step.entity.Phone;
 import by.step.entity.Tariff;
 import by.step.mapper.ClientMapper;
 import by.step.mapper.PhoneMapper;
-import by.step.mapper.TariffMapper;
 import by.step.repository.ClientRepository;
 import by.step.repository.PhoneRepository;
 import by.step.repository.TariffRepository;
@@ -31,8 +28,6 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
     private final TariffRepository tariffRepository;
-    private final TariffMapper tariffMapper;
-
 
     @Override
     public PhoneClientDto findOneById(Long id) {
@@ -53,14 +48,11 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
         if (entity != null) {
             if (!phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
                     entity.getCountryCode(), entity.getOperatorCode(), entity.getMobile())) {
-                if (entity.getCountryCode().length() >= 2
-                        && entity.getOperatorCode().length() >= 2
-                        && entity.getMobile().length() >= 5) {
+                if (entity.getCountryCode().length() != 0
+                        && entity.getOperatorCode().length() != 0
+                        && entity.getMobile().length() != 0) {
                     return phoneMapper.convertToDtoWithClient(
-                            phoneRepository.save(
-                                    phoneMapper.convert(entity)
-                            )
-                    );
+                            phoneRepository.save(phoneMapper.convert(entity)));
                 } else {
                     throw new EntityNotCorrectException("Check input sources.");
                 }
@@ -82,7 +74,7 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
     }
 
     @Override
-    public PhoneClientDto addClientToPhone(Long phoneId, Long clientId) {
+    public PhoneClientDto addClientById(Long phoneId, Long clientId) {
         if (phoneRepository.existsById(phoneId) && clientRepository.existsById(clientId)) {
             Phone phone = phoneMapper.convert(findOneById(phoneId));
             Client client = clientRepository.findById(clientId).get();
@@ -101,9 +93,8 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
         }
     }
 
-    // TODO: 30.10.2022 CHECK THIS
     @Override
-    public PhoneClientDto addClientToPhone(Long phoneId, ClientDto clientDto) {
+    public PhoneClientDto addClientByName(Long phoneId, ClientDto clientDto) {
         if (phoneRepository.existsById(phoneId)) {
             if (clientDto.getName().length() != 0
                     && clientDto.getLastName().length() != 0
@@ -112,11 +103,11 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
                         clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic())) {
                     Client client = clientRepository.findByNameAndLastNameAndPatronymic(
                             clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic());
-                    return addClientToPhone(phoneId, client.getId());
+                    return addClientById(phoneId, client.getId());
                 } else {
                     Client client = clientMapper.convert(clientDto);
                     client = clientRepository.save(client);
-                    return addClientToPhone(phoneId, client.getId());
+                    return addClientById(phoneId, client.getId());
                 }
             } else {
                 throw new EntityNotCorrectException("Check input sources.");
@@ -127,7 +118,7 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
     }
 
     @Override
-    public PhoneClientDto addTariffToPhone(Long phoneId, Long tariffId) {
+    public PhoneClientDto addTariffById(Long phoneId, Long tariffId) {
         if (phoneRepository.existsById(phoneId) && tariffRepository.existsById(tariffId)) {
             Phone phone = phoneMapper.convert(findOneById(phoneId));
             Tariff tariff = tariffRepository.findById(tariffId).get();

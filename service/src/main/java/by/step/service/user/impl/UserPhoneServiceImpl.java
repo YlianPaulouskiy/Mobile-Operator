@@ -1,5 +1,6 @@
 package by.step.service.user.impl;
 
+import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.phoneDto.PhoneDtoWithoutId;
 import by.step.mapper.PhoneMapper;
 import by.step.repository.PhoneRepository;
@@ -18,12 +19,15 @@ public class UserPhoneServiceImpl implements UserPhoneService {
     private final PhoneMapper phoneMapper;
 
     @Override
-    public PhoneDtoWithoutId findOneById(Long id) {
-        return phoneMapper.convertToDtoWithoutId(
-                phoneRepository.findById(id).orElseThrow(
-                        () -> new EntityNotFoundException("Phone #" + id + " not found." )
-                )
-        );
+    public PhoneDtoWithoutId findOneByNumber(PhoneDto phoneDto) {
+        if (phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
+                phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {
+            return phoneMapper.convertToDtoWithoutId(phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
+                    phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile()));
+        } else {
+            throw new EntityNotFoundException("Phone " +phoneDto.getCountryCode() +
+                    phoneDto.getOperatorCode() +  phoneDto.getMobile() + " not found.");
+        }
     }
 
     @Override
