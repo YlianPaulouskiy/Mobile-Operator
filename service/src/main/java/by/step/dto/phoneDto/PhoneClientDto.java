@@ -5,12 +5,11 @@ import by.step.dto.tariffDto.TariffDtoWithId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class PhoneClientDto extends PhoneDtoWithId {
 
     private ClientDtoWithId client;
-
     private TariffDtoWithId tariff;
 
 }

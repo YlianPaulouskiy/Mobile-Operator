@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class TariffPhoneDto extends TariffDtoWithId {
 
     private List<PhoneDtoWithId> phoneList;

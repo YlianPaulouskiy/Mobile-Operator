@@ -44,7 +44,7 @@ public class AdminClientServiceImpl implements AdminClientService {
     @Override
     public ClientPhoneDto save(ClientPhoneDto entity) {
         if (entity != null) {
-            if (clientRepository.existsByNameAndLastNameAndPatronymic(
+            if (!clientRepository.existsByNameAndLastNameAndPatronymic(
                     entity.getName(), entity.getLastName(), entity.getPatronymic())) {
                 if (entity.getName().length() == 0
                         || entity.getLastName().length() == 0
