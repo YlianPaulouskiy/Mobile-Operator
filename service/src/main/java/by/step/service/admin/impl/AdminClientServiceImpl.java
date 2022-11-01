@@ -1,5 +1,6 @@
 package by.step.service.admin.impl;
 
+import by.step.dto.clientDto.ClientDto;
 import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.dto.phoneDto.PhoneDto;
 import by.step.entity.Client;
@@ -41,7 +42,7 @@ public class AdminClientServiceImpl implements AdminClientService {
     }
 
     @Override
-    public ClientPhoneDto save(ClientPhoneDto entity) {
+    public ClientPhoneDto save(ClientDto entity) {
         if (entity != null) {
             if (!clientRepository.existsByNameAndLastNameAndPatronymic(
                     entity.getName(), entity.getLastName(), entity.getPatronymic())) {

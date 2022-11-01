@@ -3,6 +3,7 @@ package by.step.controller.admin.impl;
 import by.step.controller.admin.AdminPhoneController;
 import by.step.dto.clientDto.ClientDto;
 import by.step.dto.phoneDto.PhoneClientDto;
+import by.step.dto.phoneDto.PhoneDto;
 import by.step.service.admin.AdminPhoneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +35,7 @@ public class AdminPhoneControllerImpl implements AdminPhoneController {
 
     @Operation(summary = "Сохранить телефон", description = "Сохраняет телефон в базу данных")
     @Override
-    public PhoneClientDto save(PhoneClientDto entity) {
+    public PhoneClientDto save(PhoneDto entity) {
         return adminPhoneService.save(entity);
     }
 

@@ -1,6 +1,7 @@
 package by.step.service.admin;
 
 import by.step.dto.phoneDto.PhoneDto;
+import by.step.dto.tariffDto.TariffDto;
 import by.step.dto.tariffDto.TariffPhoneDto;
 import by.step.service.parent.BaseAdminService;
 
@@ -15,6 +16,8 @@ public interface AdminTariffService extends BaseAdminService<TariffPhoneDto> {
             Integer minutesFrom, Integer minutesTo,
             Integer megabytesFrom, Integer megabytesTo
     );
+
+    TariffPhoneDto save(TariffDto tariffDto);
 
     TariffPhoneDto addPhoneById(Long tariffId, Long phoneId);
 

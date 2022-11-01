@@ -1,6 +1,7 @@
 package by.step.controller.admin;
 
 import by.step.controller.parent.BaseAdminController;
+import by.step.dto.clientDto.ClientDto;
 import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.dto.phoneDto.PhoneDto;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,10 @@ public interface AdminClientController extends BaseAdminController<ClientPhoneDt
 
     @PostMapping("/addPhoneById")
     ClientPhoneDto addPhoneToClient(@RequestParam Long clientId, @RequestParam Long phoneId);
+
+    @PostMapping("/save")
+    ClientPhoneDto save(@RequestBody ClientDto entity);
+
 
 
 }

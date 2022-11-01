@@ -2,6 +2,7 @@ package by.step.controller.admin.impl;
 
 import by.step.controller.admin.AdminTariffController;
 import by.step.dto.phoneDto.PhoneDto;
+import by.step.dto.tariffDto.TariffDto;
 import by.step.dto.tariffDto.TariffPhoneDto;
 import by.step.service.admin.AdminTariffService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +35,7 @@ public class AdminTariffControllerImpl implements AdminTariffController {
 
     @Operation(summary = "Сохранить тариф", description = "Сохраняет новый тариф в базу данных")
     @Override
-    public TariffPhoneDto save(TariffPhoneDto entity) {
+    public TariffPhoneDto save(TariffDto entity) {
         return adminTariffService.save(entity);
     }
 

@@ -1,6 +1,7 @@
 package by.step.service.admin.impl;
 
 import by.step.dto.phoneDto.PhoneDto;
+import by.step.dto.tariffDto.TariffDto;
 import by.step.dto.tariffDto.TariffPhoneDto;
 import by.step.entity.Client;
 import by.step.entity.Phone;
@@ -43,7 +44,7 @@ public class AdminTariffServiceImpl implements AdminTariffService {
     }
 
     @Override
-    public TariffPhoneDto save(TariffPhoneDto entity) {
+    public TariffPhoneDto save(TariffDto entity) {
         if (entity != null) {
             if (!tariffRepository.existsByPriceAndMinutesAndMegabytes(
                     entity.getPrice(), entity.getMinutes(), entity.getMegabytes())) {

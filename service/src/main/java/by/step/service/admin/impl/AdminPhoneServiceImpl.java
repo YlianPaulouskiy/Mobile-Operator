@@ -2,6 +2,7 @@ package by.step.service.admin.impl;
 
 import by.step.dto.clientDto.ClientDto;
 import by.step.dto.phoneDto.PhoneClientDto;
+import by.step.dto.phoneDto.PhoneDto;
 import by.step.entity.Client;
 import by.step.entity.Phone;
 import by.step.entity.Tariff;
@@ -44,7 +45,7 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
     }
 
     @Override
-    public PhoneClientDto save(PhoneClientDto entity) {
+    public PhoneClientDto save(PhoneDto entity) {
         if (entity != null) {
             if (!phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
                     entity.getCountryCode(), entity.getOperatorCode(), entity.getMobile())) {

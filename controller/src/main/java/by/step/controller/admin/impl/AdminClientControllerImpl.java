@@ -1,6 +1,7 @@
 package by.step.controller.admin.impl;
 
 import by.step.controller.admin.AdminClientController;
+import by.step.dto.clientDto.ClientDto;
 import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.dto.phoneDto.PhoneDto;
 import by.step.service.admin.AdminClientService;
@@ -34,7 +35,7 @@ public class AdminClientControllerImpl implements AdminClientController {
 
     @Operation(summary = "Сохранить клиента", description = "Сохраняет информацию о клиенте в базу данных")
     @Override
-    public ClientPhoneDto save(ClientPhoneDto entity) {
+    public ClientPhoneDto save(ClientDto entity) {
         return adminClientService.save(entity);
     }
 
