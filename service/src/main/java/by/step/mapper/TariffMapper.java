@@ -4,11 +4,9 @@ import by.step.dto.tariffDto.TariffDto;
 import by.step.dto.tariffDto.TariffDtoWithId;
 import by.step.dto.tariffDto.TariffDtoWithoutId;
 import by.step.dto.tariffDto.TariffPhoneDto;
+import by.step.entity.Phone;
 import by.step.entity.Tariff;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -26,6 +24,7 @@ public interface TariffMapper {
 
     Tariff convert(TariffDtoWithoutId tariffDtoWithoutId);
 
+    @Named(value = "convertToDto")
     TariffDto convertToDto(Tariff tariff);
 
     TariffDtoWithId convertToDtoWithId(Tariff tariff);
@@ -34,9 +33,8 @@ public interface TariffMapper {
 
     TariffDtoWithoutId convertToDtoWithoutId(Tariff tariff);
 
-    List<TariffDtoWithoutId> convertToDtoListWithoutId(List<Tariff> tariffList);
-
-    List<TariffDto> convertToDto(List<TariffDtoWithoutId> tariffDtoWithoutIds);
+    @IterableMapping(qualifiedByName = "convertToDto")
+    List<TariffDto> convertToDtoList(List<Tariff> tariffList);
 
     List<TariffPhoneDto> convertToTariffPhoneDtoList(List<Tariff> tariffList);
 

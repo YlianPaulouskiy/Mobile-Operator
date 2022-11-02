@@ -22,7 +22,7 @@ public class UserTariffControllerImpl implements UserTariffController {
 
     @Operation(summary = "Найти все тарифы", description = "Выводит все существующие тарифы")
     @Override
-    public List<TariffDtoWithoutId> findAll() {
+    public List<TariffDto> findAll() {
         return userTariffService.findAll();
     }
 

@@ -6,7 +6,7 @@ import by.step.service.parent.BaseUserService;
 
 import java.util.List;
 
-public interface UserTariffService extends BaseUserService<TariffDtoWithoutId> {
+public interface UserTariffService extends BaseUserService<TariffDto> {
 
     List<TariffDto> sortTariffByPrice();
 
@@ -15,4 +15,10 @@ public interface UserTariffService extends BaseUserService<TariffDtoWithoutId> {
             Integer minutesFrom, Integer minutesTo,
             Integer megabytesFrom, Integer megabytesTo
     );
+
+    TariffDtoWithoutId findTariffByNameWithPhones(String tariffName);
+
+    TariffDto findTariffByNameWithoutPhones(String tariffName);
+
+
 }

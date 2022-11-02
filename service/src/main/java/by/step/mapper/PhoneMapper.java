@@ -5,10 +5,7 @@ import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.phoneDto.PhoneDtoWithId;
 import by.step.dto.phoneDto.PhoneDtoWithoutId;
 import by.step.entity.Phone;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -26,6 +23,7 @@ public interface PhoneMapper {
 
     Phone convert(PhoneDtoWithoutId phoneDtoWithoutId);
 
+    @Named(value = "convertToDto")
     PhoneDto convertToDto(Phone phone);
 
     PhoneDtoWithId convertToDtoWithId(Phone phone);
@@ -35,6 +33,9 @@ public interface PhoneMapper {
     PhoneDtoWithoutId convertToDtoWithoutId(Phone phone);
 
     List<PhoneDtoWithoutId> convertToDtoListWithoutId(List<Phone> phoneList);
+
+    @IterableMapping(qualifiedByName = "convertToDto")
+    List<PhoneDto> convertToDtoList(List<Phone> phoneList);
 
     List<PhoneClientDto> convertToPhoneClientDtoList(List<Phone> phoneList);
 

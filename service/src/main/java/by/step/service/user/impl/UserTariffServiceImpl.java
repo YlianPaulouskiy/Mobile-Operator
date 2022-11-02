@@ -4,6 +4,7 @@ import by.step.dto.tariffDto.TariffDto;
 import by.step.dto.tariffDto.TariffDtoWithoutId;
 import by.step.mapper.TariffMapper;
 import by.step.repository.TariffRepository;
+import by.step.service.exception.EntityNotCorrectException;
 import by.step.service.user.UserTariffService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,33 @@ public class UserTariffServiceImpl implements UserTariffService {
     private final TariffMapper tariffMapper;
 
     @Override
-    public List<TariffDtoWithoutId> findAll() {
-        return tariffMapper.convertToDtoListWithoutId(tariffRepository.findAll());
+    public List<TariffDto> findAll() {
+        return tariffMapper.convertToDtoList(tariffRepository.findAll());
+    }
+
+    @Override
+    public TariffDtoWithoutId findTariffByNameWithPhones(String tariffName) {
+        if (tariffName != null
+                && tariffName.length() > 0) {
+            return tariffMapper.convertToDtoWithoutId(tariffRepository.findTariffByName(tariffName));
+        } else {
+            throw new EntityNotCorrectException("Check input sources.");
+        }
+    }
+
+    @Override
+    public TariffDto findTariffByNameWithoutPhones(String tariffName) {
+        if (tariffName != null
+                && tariffName.length() > 0) {
+            return tariffMapper.convertToDto(tariffRepository.findTariffByName(tariffName));
+        } else {
+            throw new EntityNotCorrectException("Check input sources.");
+        }
     }
 
     @Override
     public List<TariffDto> sortTariffByPrice() {
-        List<TariffDto> tariffDtoList = tariffMapper.convertToDto(findAll());
+        List<TariffDto> tariffDtoList = findAll();
         tariffDtoList.sort(Comparator.comparing(TariffDto::getPrice));
         return tariffDtoList;
     }

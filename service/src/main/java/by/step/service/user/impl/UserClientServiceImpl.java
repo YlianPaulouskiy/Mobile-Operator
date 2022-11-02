@@ -31,8 +31,8 @@ public class UserClientServiceImpl implements UserClientService {
     }
 
     @Override
-    public List<ClientDtoWithoutId> findAll() {
-        return clientMapper.convertToDtoListWithoutId(clientRepository.findAll());
+    public List<ClientDto> findAll() {
+        return clientMapper.convertToDtoList(clientRepository.findAll());
     }
 
     @Override

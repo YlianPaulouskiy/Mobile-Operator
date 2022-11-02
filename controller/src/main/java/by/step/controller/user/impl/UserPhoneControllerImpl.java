@@ -1,6 +1,7 @@
 package by.step.controller.user.impl;
 
 import by.step.controller.user.UserPhoneController;
+import by.step.dto.clientDto.ClientDto;
 import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.phoneDto.PhoneDtoWithoutId;
 import by.step.service.user.UserPhoneService;
@@ -24,6 +25,18 @@ public class UserPhoneControllerImpl implements UserPhoneController {
     @Override
     public PhoneDtoWithoutId findOneByNumber(PhoneDto phoneDto) {
         return userPhoneService.findOneByNumber(phoneDto);
+    }
+
+    @Operation(summary = "Найти телефоны по названию тарифа", description = "Выводит телефоны, которые используют данный тарифф")
+    @Override
+    public List<PhoneDto> findPhonesByTariffName(String tariffName) {
+        return userPhoneService.findPhonesByTariffName(tariffName);
+    }
+
+    @Operation(summary = "Найти телефон по ФИО клиента", description = "Выводит телефоны, которые использует данный клиент")
+    @Override
+    public List<PhoneDto> findPhonesByClient(ClientDto clientDto) {
+        return userPhoneService.findPhonesByClient(clientDto);
     }
 
     @Operation(summary = "Найти все телефоны", description = "Выводит все существующие телефоны")

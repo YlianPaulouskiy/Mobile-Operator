@@ -28,7 +28,7 @@ public class UserClientControllerImpl implements UserClientController {
 
     @Operation(summary = "Найти всех клиентов", description = "Выводит всех существующих клиентов")
     @Override
-    public List<ClientDtoWithoutId> findAll() {
+    public List<ClientDto> findAll() {
         return userClientService.findAll();
     }
 

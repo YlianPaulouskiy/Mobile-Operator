@@ -5,10 +5,7 @@ import by.step.dto.clientDto.ClientDtoWithId;
 import by.step.dto.clientDto.ClientDtoWithoutId;
 import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.entity.Client;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -26,6 +23,7 @@ public interface ClientMapper {
 
     Client convert(ClientDtoWithoutId clientDtoWithoutId);
 
+    @Named(value = "convertToDto")
     ClientDto convertToDto(Client client);
 
     ClientDtoWithId convertToDtoWithId(Client client);
@@ -34,7 +32,8 @@ public interface ClientMapper {
 
     ClientDtoWithoutId convertToDtoWithoutId(Client client);
 
-    List<ClientDtoWithoutId> convertToDtoListWithoutId(List<Client> clientList);
+    @IterableMapping(qualifiedByName = "convertToDto")
+    List<ClientDto> convertToDtoList(List<Client> clientList);
 
     List<ClientPhoneDto> convertToClientPhoneDtoList(List<Client> clientList);
 
