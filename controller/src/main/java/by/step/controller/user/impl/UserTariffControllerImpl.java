@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/user/api/tariff")
-@Tag(name = "Tariff menu", description = "Операции пользователя для работы с данными о тарифах")
+@Tag(name = "Tariff menu")
 public class UserTariffControllerImpl implements UserTariffController {
 
     private final UserTariffService userTariffService;

@@ -27,6 +27,7 @@ public interface TariffMapper {
     @Named(value = "convertToDto")
     TariffDto convertToDto(Tariff tariff);
 
+    @Named(value = "convertToDtoWithId")
     TariffDtoWithId convertToDtoWithId(Tariff tariff);
 
     TariffPhoneDto convertToDtoWithPhone(Tariff tariff);
@@ -36,7 +37,8 @@ public interface TariffMapper {
     @IterableMapping(qualifiedByName = "convertToDto")
     List<TariffDto> convertToDtoList(List<Tariff> tariffList);
 
-    List<TariffPhoneDto> convertToTariffPhoneDtoList(List<Tariff> tariffList);
+    @IterableMapping(qualifiedByName = "convertToDtoWithId")
+    List<TariffDtoWithId> convertToDtoWithIdList(List<Tariff> tariffList);
 
     @AfterMapping
     default void linkPhone(@MappingTarget Tariff tariff) {

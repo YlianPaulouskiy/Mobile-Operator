@@ -4,6 +4,7 @@ import by.step.controller.admin.AdminPhoneController;
 import by.step.dto.clientDto.ClientDto;
 import by.step.dto.phoneDto.PhoneClientDto;
 import by.step.dto.phoneDto.PhoneDto;
+import by.step.dto.phoneDto.PhoneDtoWithId;
 import by.step.service.admin.AdminPhoneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/admin/api/phone")
-@Tag(name = "Phone menu", description = "Операции администратора для работы с данными о телефонах")
+@Tag(name = "Phone menu")
 public class AdminPhoneControllerImpl implements AdminPhoneController {
 
     private final AdminPhoneService adminPhoneService;
@@ -31,6 +32,18 @@ public class AdminPhoneControllerImpl implements AdminPhoneController {
     @Override
     public List<PhoneClientDto> findAll() {
         return adminPhoneService.findAll();
+    }
+
+    @Operation(summary = "Найти телефоны по названию тарифа", description = "Выводит телефоны, которые используют данный тарифф")
+    @Override
+    public List<PhoneDtoWithId> findPhonesByTariffName(String tariffName) {
+        return adminPhoneService.findPhonesByTariffName(tariffName);
+    }
+
+    @Operation(summary = "Найти телефон по ФИО клиента", description = "Выводит телефоны, которые использует данный клиент")
+    @Override
+    public List<PhoneDtoWithId> findPhonesByClient(ClientDto clientDto) {
+        return adminPhoneService.findPhonesByClient(clientDto);
     }
 
     @Operation(summary = "Сохранить телефон", description = "Сохраняет телефон в базу данных")

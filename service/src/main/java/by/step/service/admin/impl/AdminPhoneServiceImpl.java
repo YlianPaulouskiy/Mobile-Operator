@@ -3,6 +3,7 @@ package by.step.service.admin.impl;
 import by.step.dto.clientDto.ClientDto;
 import by.step.dto.phoneDto.PhoneClientDto;
 import by.step.dto.phoneDto.PhoneDto;
+import by.step.dto.phoneDto.PhoneDtoWithId;
 import by.step.entity.Client;
 import by.step.entity.Phone;
 import by.step.entity.Tariff;
@@ -42,6 +43,34 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
     @Override
     public List<PhoneClientDto> findAll() {
         return phoneMapper.convertToPhoneClientDtoList(phoneRepository.findAll());
+    }
+
+    @Override
+    public List<PhoneDtoWithId> findPhonesByTariffName(String tariffName) {
+        if (tariffName != null && tariffName.length() > 0) {
+            return phoneMapper.convertToDtoWithIdList(
+                    phoneRepository.findPhonesByTariffName(tariffName)
+            );
+        } else {
+            throw new EntityNotCorrectException("Check Input Sources.");
+        }
+    }
+
+    // FIXME: 02.11.2022 DONT WORK httpsError: 400
+    @Override
+    public List<PhoneDtoWithId> findPhonesByClient(ClientDto clientDto) {
+        if (clientDto != null &&
+                clientDto.getName().length() > 0
+                && clientDto.getLastName().length() > 0
+                && clientDto.getPatronymic().length() > 0) {
+            return phoneMapper.convertToDtoWithIdList(
+                    phoneRepository.findPhonesByClient(
+                            clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic()
+                    )
+            );
+        } else {
+            throw new EntityNotCorrectException("Check Input Sources.");
+        }
     }
 
     @Override

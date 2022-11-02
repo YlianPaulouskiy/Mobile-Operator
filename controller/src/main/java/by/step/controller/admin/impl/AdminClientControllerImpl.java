@@ -2,6 +2,7 @@ package by.step.controller.admin.impl;
 
 import by.step.controller.admin.AdminClientController;
 import by.step.dto.clientDto.ClientDto;
+import by.step.dto.clientDto.ClientDtoWithId;
 import by.step.dto.clientDto.ClientPhoneDto;
 import by.step.dto.phoneDto.PhoneDto;
 import by.step.service.admin.AdminClientService;
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/admin/api/client")
-@Tag(name = "Client menu", description = "Операции администратора для работы с данными о клиентах")
+@Tag(name = "Client menu")
 public class AdminClientControllerImpl implements AdminClientController {
 
     private final AdminClientService adminClientService;
@@ -29,7 +30,7 @@ public class AdminClientControllerImpl implements AdminClientController {
 
     @Operation(summary = "Найти всех клиентов", description = "Выводит всех существующих клиентов")
     @Override
-    public List<ClientPhoneDto> findAll() {
+    public List<ClientDtoWithId> findAll() {
         return adminClientService.findAll();
     }
 

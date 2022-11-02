@@ -26,6 +26,7 @@ public interface ClientMapper {
     @Named(value = "convertToDto")
     ClientDto convertToDto(Client client);
 
+    @Named(value = "convertToDtoWithId")
     ClientDtoWithId convertToDtoWithId(Client client);
 
     ClientPhoneDto convertToDtoWithPhone(Client client);
@@ -35,7 +36,8 @@ public interface ClientMapper {
     @IterableMapping(qualifiedByName = "convertToDto")
     List<ClientDto> convertToDtoList(List<Client> clientList);
 
-    List<ClientPhoneDto> convertToClientPhoneDtoList(List<Client> clientList);
+    @IterableMapping(qualifiedByName = "convertToDtoWithId")
+    List<ClientDtoWithId> convertToClientDto(List<Client> clientList);
 
     @AfterMapping
     default void linkPhone(@MappingTarget Client client) {

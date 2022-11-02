@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/user/api/phone")
-@Tag(name = "Phone menu", description = "Операции пользователя для работы с данными о телефонах")
+@Tag(name = "Phone menu")
 public class UserPhoneControllerImpl implements UserPhoneController {
 
     private final UserPhoneService userPhoneService;

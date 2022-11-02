@@ -26,6 +26,7 @@ public interface PhoneMapper {
     @Named(value = "convertToDto")
     PhoneDto convertToDto(Phone phone);
 
+    @Named(value = "convertToDtoWithId")
     PhoneDtoWithId convertToDtoWithId(Phone phone);
 
     PhoneClientDto convertToDtoWithClient(Phone phone);
@@ -36,6 +37,9 @@ public interface PhoneMapper {
 
     @IterableMapping(qualifiedByName = "convertToDto")
     List<PhoneDto> convertToDtoList(List<Phone> phoneList);
+
+    @IterableMapping(qualifiedByName = "convertToDtoWithId")
+    List<PhoneDtoWithId> convertToDtoWithIdList(List<Phone> phoneList);
 
     List<PhoneClientDto> convertToPhoneClientDtoList(List<Phone> phoneList);
 

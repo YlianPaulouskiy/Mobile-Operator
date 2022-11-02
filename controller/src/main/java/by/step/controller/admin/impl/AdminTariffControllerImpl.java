@@ -3,6 +3,7 @@ package by.step.controller.admin.impl;
 import by.step.controller.admin.AdminTariffController;
 import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.tariffDto.TariffDto;
+import by.step.dto.tariffDto.TariffDtoWithId;
 import by.step.dto.tariffDto.TariffPhoneDto;
 import by.step.service.admin.AdminTariffService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/admin/api/tariff")
-@Tag(name = "Tariff menu", description = "Операции администратора для работы с данными о тарифах")
+@Tag(name = "Tariff menu")
 public class AdminTariffControllerImpl implements AdminTariffController {
 
     private final AdminTariffService adminTariffService;
@@ -29,7 +30,7 @@ public class AdminTariffControllerImpl implements AdminTariffController {
 
     @Operation(summary = "Найти все тарифы", description = "Выводит все существующие тарифы")
     @Override
-    public List<TariffPhoneDto> findAll() {
+    public List<TariffDtoWithId> findAll() {
         return adminTariffService.findAll();
     }
 
@@ -48,7 +49,7 @@ public class AdminTariffControllerImpl implements AdminTariffController {
     @Operation(summary = "Отсортировать тарифы по стоимости", description = "Выводит все существующие тарифы " +
             "отсортированные по стоимости")
     @Override
-    public List<TariffPhoneDto> sortTariffByPrice() {
+    public List<TariffDtoWithId> sortTariffByPrice() {
         return adminTariffService.sortTariffByPrice();
     }
 

@@ -2,8 +2,8 @@ package by.step.service.admin.impl;
 
 import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.tariffDto.TariffDto;
+import by.step.dto.tariffDto.TariffDtoWithId;
 import by.step.dto.tariffDto.TariffPhoneDto;
-import by.step.entity.Client;
 import by.step.entity.Phone;
 import by.step.entity.Tariff;
 import by.step.mapper.PhoneMapper;
@@ -39,8 +39,8 @@ public class AdminTariffServiceImpl implements AdminTariffService {
     }
 
     @Override
-    public List<TariffPhoneDto> findAll() {
-        return tariffMapper.convertToTariffPhoneDtoList(tariffRepository.findAll());
+    public List<TariffDtoWithId> findAll() {
+        return tariffMapper.convertToDtoWithIdList(tariffRepository.findAll());
     }
 
     @Override
@@ -77,9 +77,9 @@ public class AdminTariffServiceImpl implements AdminTariffService {
     }
 
     @Override
-    public List<TariffPhoneDto> sortTariffByPrice() {
-        List<TariffPhoneDto> tariffPhoneDtoList = findAll();
-        tariffPhoneDtoList.sort(Comparator.comparing(TariffPhoneDto::getPrice));
+    public List<TariffDtoWithId> sortTariffByPrice() {
+        List<TariffDtoWithId> tariffPhoneDtoList = findAll();
+        tariffPhoneDtoList.sort(Comparator.comparing(TariffDtoWithId::getPrice));
         return tariffPhoneDtoList;
     }
 
@@ -113,6 +113,7 @@ public class AdminTariffServiceImpl implements AdminTariffService {
         }
     }
 
+    // FIXME: 02.11.2022 ERROR 404!
     @Override
     public TariffPhoneDto addPhoneByNumber(Long tariffId, PhoneDto phoneDto) {
         if (tariffRepository.existsById(tariffId)) {

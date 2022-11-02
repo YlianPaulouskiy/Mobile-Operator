@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/user/api/client")
-@Tag(name = "Client menu", description = "Операции пользователя для работы с данными о клиентах")
+@Tag(name = "Client menu")
 public class UserClientControllerImpl implements UserClientController {
 
     private final UserClientService userClientService;
