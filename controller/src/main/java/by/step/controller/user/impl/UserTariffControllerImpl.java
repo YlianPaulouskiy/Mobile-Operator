@@ -15,26 +15,20 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/user/api/tariff")
-@Tag(name = "Tariff menu")
 public class UserTariffControllerImpl implements UserTariffController {
 
     private final UserTariffService userTariffService;
 
-    @Operation(summary = "Найти все тарифы", description = "Выводит все существующие тарифы")
     @Override
     public List<TariffDto> findAll() {
         return userTariffService.findAll();
     }
 
-    @Operation(summary = "Отсортировать тарифы по стоимости", description = "Выводит все существующие тарифы " +
-            "отсортированные по стоимости")
     @Override
     public List<TariffDto> sortTariffByPrice() {
         return userTariffService.sortTariffByPrice();
     }
 
-    @Operation(summary = "Найти тариф соответствующий параметрам", description = "Выводит тарифф соответствующий" +
-            " заданным параметрам: цены, минутам, мегабайтам")
     @Override
     public TariffDto findTariffByParameters(Double priceFrom, Double priceTo, Integer minutesFrom,
                                             Integer minutesTo, Integer megabytesFrom, Integer megabytesTo) {

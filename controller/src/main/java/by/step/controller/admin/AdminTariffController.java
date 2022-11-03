@@ -5,31 +5,51 @@ import by.step.dto.phoneDto.PhoneDto;
 import by.step.dto.tariffDto.TariffDto;
 import by.step.dto.tariffDto.TariffDtoWithId;
 import by.step.dto.tariffDto.TariffPhoneDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
+@Validated
+@Tag(name = "Tariff menu")
 public interface AdminTariffController extends BaseAdminController<TariffDtoWithId> {
 
+    @Operation(summary = "Найти тариф по Id", description = "Выводит тариф соответствующий заданному Id")
     @GetMapping("/findById")
-    TariffPhoneDto findOneById(@RequestParam Long id);
+    TariffPhoneDto findOneById(@NotNull @Positive @RequestParam Long id);
 
+    @Operation(summary = "Отсортировать тарифы по стоимости", description = "Выводит все существующие тарифы " +
+            "отсортированные по стоимости")
     @GetMapping("/sortTariffByPrice")
     List<TariffDtoWithId> sortTariffByPrice();
 
+    @Operation(summary = "Найти тариф соответствующий параметрам", description = "Выводит тарифф соответствующий" +
+            " заданным параметрам: цены, минутам, мегабайтам")
     @GetMapping("/findTariffByParameters")
     TariffPhoneDto findTariffByParameters(
-            @RequestParam Double priceFrom, @RequestParam Double priceTo,
-            @RequestParam Integer minutesFrom, @RequestParam Integer minutesTo,
-            @RequestParam Integer megabytesFrom, @RequestParam Integer megabytesTo
+            @NotNull @Positive @RequestParam Double priceFrom, @NotNull @Positive @RequestParam Double priceTo,
+            @NotNull @Positive @RequestParam Integer minutesFrom, @NotNull @Positive @RequestParam Integer minutesTo,
+            @NotNull @Positive @RequestParam Integer megabytesFrom, @NotNull @Positive @RequestParam Integer megabytesTo
     );
 
+    @Operation(summary = "Сохранить тариф", description = "Сохраняет новый тариф в базу данных")
     @PostMapping("/save")
-    TariffPhoneDto save(@RequestBody TariffDto entity);
+    TariffPhoneDto save(@Valid @RequestBody TariffDto entity);
 
+    @Operation(summary = "Добавить Телефон по Id", description = "Добавляет телефона к тарифу по Id," +
+            "если телефон не использует данные тариф")
     @PutMapping("/addPhoneById")
-    TariffPhoneDto addPhoneById(@RequestParam Long tariffId, @RequestParam Long phoneId);
+    TariffPhoneDto addPhoneById(@NotNull @Positive @RequestParam Long tariffId,
+                                @NotNull @Positive @RequestParam Long phoneId);
 
+    @Operation(summary = "Добавить Телефон по номеру", description = "Добавляет телефона к тарифу по номеру," +
+            "если телефон не использует данные тариф")
     @PostMapping("/addPhoneByNumber")
-    TariffPhoneDto addPhoneByNumber(@RequestParam Long tariffId, @RequestParam PhoneDto phoneDto);
+    TariffPhoneDto addPhoneByNumber(@NotNull @Positive @RequestParam Long tariffId,
+                                    @Valid @RequestParam PhoneDto phoneDto);
 }

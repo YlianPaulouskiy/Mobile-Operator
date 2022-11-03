@@ -14,9 +14,12 @@ import by.step.service.admin.AdminClientService;
 import by.step.service.exception.EntityNotCorrectException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @AllArgsConstructor
@@ -44,22 +47,12 @@ public class AdminClientServiceImpl implements AdminClientService {
 
     @Override
     public ClientPhoneDto save(ClientDto entity) {
-        if (entity != null) {
-            if (!clientRepository.existsByNameAndLastNameAndPatronymic(
-                    entity.getName(), entity.getLastName(), entity.getPatronymic())) {
-                if (entity.getName().length() == 0
-                        || entity.getLastName().length() == 0
-                        || entity.getPatronymic().length() == 0) {
-                    throw new EntityNotCorrectException("Check input sources.");
-                } else {
-                    return clientMapper.convertToDtoWithPhone(
-                            clientRepository.save(clientMapper.convert(entity)));
-                }
-            } else {
-                throw new EntityExistsException("Client already exists.");
-            }
+        if (!clientRepository.existsByNameAndLastNameAndPatronymic(
+                entity.getName(), entity.getLastName(), entity.getPatronymic())) {
+            return clientMapper.convertToDtoWithPhone(
+                    clientRepository.save(clientMapper.convert(entity)));
         } else {
-            throw new EntityNotCorrectException("Input source is null.");
+            throw new EntityExistsException("Client already exists.");
         }
     }
 
@@ -75,21 +68,15 @@ public class AdminClientServiceImpl implements AdminClientService {
     @Override
     public ClientPhoneDto addPhoneByNumber(Long clientId, PhoneDto phoneDto) {
         if (clientRepository.existsById(clientId)) {
-            if (phoneDto.getCountryCode().length() != 0
-                    && phoneDto.getOperatorCode().length() != 0
-                    && phoneDto.getMobile().length() != 0) {
-                if (phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
-                        phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {
-                    Phone phone = phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
-                            phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile());
-                    return addPhoneById(clientId, phone.getId());
-                } else {
-                    Phone phone = phoneMapper.convert(phoneDto);
-                    phone = phoneRepository.save(phone);
-                    return addPhoneById(clientId, phone.getId());
-                }
+            if (phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
+                    phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {
+                Phone phone = phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
+                        phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile());
+                return addPhoneById(clientId, phone.getId());
             } else {
-                throw new EntityNotCorrectException("Check input sources.");
+                Phone phone = phoneMapper.convert(phoneDto);
+                phone = phoneRepository.save(phone);
+                return addPhoneById(clientId, phone.getId());
             }
         } else {
             throw new EntityNotFoundException("Client id# " + clientId + " not found.");
@@ -121,4 +108,3 @@ public class AdminClientServiceImpl implements AdminClientService {
         return clientRepository.count();
     }
 }
-

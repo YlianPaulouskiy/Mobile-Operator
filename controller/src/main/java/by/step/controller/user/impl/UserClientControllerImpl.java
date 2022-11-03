@@ -15,24 +15,20 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/user/api/client")
-@Tag(name = "Client menu")
 public class UserClientControllerImpl implements UserClientController {
 
     private final UserClientService userClientService;
 
-    @Operation(summary = "Найти клиента по ФИО", description = "Выводит клиента, соответствующего заданному ФИО")
     @Override
     public ClientDtoWithoutId findOneByName(ClientDto clientDto) {
         return userClientService.findOneByName(clientDto);
     }
 
-    @Operation(summary = "Найти всех клиентов", description = "Выводит всех существующих клиентов")
     @Override
     public List<ClientDto> findAll() {
         return userClientService.findAll();
     }
 
-    @Operation(summary = "Получить количество всех клиентов", description = "Выводит количество всех клиентов")
     @Override
     public Long getAmountClient() {
         return userClientService.getAmountClients();

@@ -16,9 +16,14 @@ import by.step.service.admin.AdminPhoneService;
 import by.step.service.exception.EntityNotCorrectException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @AllArgsConstructor
@@ -47,50 +52,29 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
 
     @Override
     public List<PhoneDtoWithId> findPhonesByTariffName(String tariffName) {
-        if (tariffName != null && tariffName.length() > 0) {
-            return phoneMapper.convertToDtoWithIdList(
-                    phoneRepository.findPhonesByTariffName(tariffName)
-            );
-        } else {
-            throw new EntityNotCorrectException("Check Input Sources.");
-        }
+        return phoneMapper.convertToDtoWithIdList(
+                phoneRepository.findPhonesByTariffName(tariffName)
+        );
     }
 
     // FIXME: 02.11.2022 DONT WORK httpsError: 400
     @Override
     public List<PhoneDtoWithId> findPhonesByClient(ClientDto clientDto) {
-        if (clientDto != null &&
-                clientDto.getName().length() > 0
-                && clientDto.getLastName().length() > 0
-                && clientDto.getPatronymic().length() > 0) {
-            return phoneMapper.convertToDtoWithIdList(
-                    phoneRepository.findPhonesByClient(
-                            clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic()
-                    )
-            );
-        } else {
-            throw new EntityNotCorrectException("Check Input Sources.");
-        }
+        return phoneMapper.convertToDtoWithIdList(
+                phoneRepository.findPhonesByClient(
+                        clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic()
+                )
+        );
     }
 
     @Override
     public PhoneClientDto save(PhoneDto entity) {
-        if (entity != null) {
-            if (!phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
-                    entity.getCountryCode(), entity.getOperatorCode(), entity.getMobile())) {
-                if (entity.getCountryCode().length() != 0
-                        && entity.getOperatorCode().length() != 0
-                        && entity.getMobile().length() != 0) {
-                    return phoneMapper.convertToDtoWithClient(
-                            phoneRepository.save(phoneMapper.convert(entity)));
-                } else {
-                    throw new EntityNotCorrectException("Check input sources.");
-                }
-            } else {
-                throw new EntityExistsException("This phone already exists.");
-            }
+        if (!phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
+                entity.getCountryCode(), entity.getOperatorCode(), entity.getMobile())) {
+            return phoneMapper.convertToDtoWithClient(
+                    phoneRepository.save(phoneMapper.convert(entity)));
         } else {
-            throw new EntityNotCorrectException("Input sources is null.");
+            throw new EntityExistsException("This phone already exists.");
         }
     }
 
@@ -126,21 +110,15 @@ public class AdminPhoneServiceImpl implements AdminPhoneService {
     @Override
     public PhoneClientDto addClientByName(Long phoneId, ClientDto clientDto) {
         if (phoneRepository.existsById(phoneId)) {
-            if (clientDto.getName().length() != 0
-                    && clientDto.getLastName().length() != 0
-                    && clientDto.getPatronymic().length() != 0) {
-                if (clientRepository.existsByNameAndLastNameAndPatronymic(
-                        clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic())) {
-                    Client client = clientRepository.findByNameAndLastNameAndPatronymic(
-                            clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic());
-                    return addClientById(phoneId, client.getId());
-                } else {
-                    Client client = clientMapper.convert(clientDto);
-                    client = clientRepository.save(client);
-                    return addClientById(phoneId, client.getId());
-                }
+            if (clientRepository.existsByNameAndLastNameAndPatronymic(
+                    clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic())) {
+                Client client = clientRepository.findByNameAndLastNameAndPatronymic(
+                        clientDto.getName(), clientDto.getLastName(), clientDto.getPatronymic());
+                return addClientById(phoneId, client.getId());
             } else {
-                throw new EntityNotCorrectException("Check input sources.");
+                Client client = clientMapper.convert(clientDto);
+                client = clientRepository.save(client);
+                return addClientById(phoneId, client.getId());
             }
         } else {
             throw new EntityNotFoundException("Phone id " + phoneId + " doesn't exist.");

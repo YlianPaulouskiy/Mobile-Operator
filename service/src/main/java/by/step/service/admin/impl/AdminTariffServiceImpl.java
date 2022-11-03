@@ -14,9 +14,13 @@ import by.step.service.admin.AdminTariffService;
 import by.step.service.exception.EntityNotCorrectException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.Comparator;
 import java.util.List;
 
@@ -45,25 +49,12 @@ public class AdminTariffServiceImpl implements AdminTariffService {
 
     @Override
     public TariffPhoneDto save(TariffDto entity) {
-        if (entity != null) {
-            if (!tariffRepository.existsByPriceAndMinutesAndMegabytes(
-                    entity.getPrice(), entity.getMinutes(), entity.getMegabytes())) {
-                if (entity.getPrice() > 0.0
-                        && entity.getMinutes() > 0
-                        && entity.getMegabytes() > 0) {
-                    return tariffMapper.convertToDtoWithPhone(
-                            tariffRepository.save(
-                                    tariffMapper.convert(entity)
-                            )
-                    );
-                } else {
-                    throw new EntityNotCorrectException("Check input sources.");
-                }
-            } else {
-                throw new EntityExistsException("Tariff with this parameters already exists.");
-            }
+        if (!tariffRepository.existsByPriceAndMinutesAndMegabytes(
+                entity.getPrice(), entity.getMinutes(), entity.getMegabytes())) {
+            return tariffMapper.convertToDtoWithPhone(
+                    tariffRepository.save(tariffMapper.convert(entity)));
         } else {
-            throw new EntityNotCorrectException("Input sources is null.");
+            throw new EntityExistsException("Tariff with this parameters already exists.");
         }
     }
 
@@ -89,7 +80,7 @@ public class AdminTariffServiceImpl implements AdminTariffService {
                                                             Integer megabytesFrom, Integer megabytesTo) {
         return tariffMapper.convertToDtoWithPhone(tariffRepository
                 .findTariffByPriceBetweenAndMinutesBetweenAndMegabytesBetween(
-                priceFrom, priceTo, minutesFrom, minutesTo, megabytesFrom, megabytesTo)
+                        priceFrom, priceTo, minutesFrom, minutesTo, megabytesFrom, megabytesTo)
         );
     }
 
@@ -117,21 +108,15 @@ public class AdminTariffServiceImpl implements AdminTariffService {
     @Override
     public TariffPhoneDto addPhoneByNumber(Long tariffId, PhoneDto phoneDto) {
         if (tariffRepository.existsById(tariffId)) {
-            if (phoneDto.getCountryCode().length() != 0
-                    && phoneDto.getOperatorCode().length() != 0
-                    && phoneDto.getMobile().length() != 0) {
-                if (phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
-                        phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {
-                    Phone phone = phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
-                            phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile());
-                    return addPhoneById(tariffId, phone.getId());
-                } else {
-                    Phone phone = phoneMapper.convert(phoneDto);
-                    phone = phoneRepository.save(phone);
-                    return addPhoneById(tariffId, phone.getId());
-                }
+            if (phoneRepository.existsByCountryCodeAndOperatorCodeAndMobile(
+                    phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile())) {
+                Phone phone = phoneRepository.findByCountryCodeAndOperatorCodeAndMobile(
+                        phoneDto.getCountryCode(), phoneDto.getOperatorCode(), phoneDto.getMobile());
+                return addPhoneById(tariffId, phone.getId());
             } else {
-                throw new EntityNotCorrectException("Check input sources.");
+                Phone phone = phoneMapper.convert(phoneDto);
+                phone = phoneRepository.save(phone);
+                return addPhoneById(tariffId, phone.getId());
             }
         } else {
             throw new EntityNotFoundException("Tariff id# " + tariffId + " not found.");
