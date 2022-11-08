@@ -19,10 +19,6 @@ import java.util.List;
 @Tag(name = "Tariff menu")
 public interface AdminTariffController extends BaseAdminController<TariffDtoWithId> {
 
-    @Operation(summary = "Найти тариф по Id", description = "Выводит тариф соответствующий заданному Id")
-    @GetMapping("/findById")
-    TariffPhoneDto findOneById(@NotNull @Positive @RequestParam Long id);
-
     @Operation(summary = "Отсортировать тарифы по стоимости", description = "Выводит все существующие тарифы " +
             "отсортированные по стоимости")
     @GetMapping("/sortTariffByPrice")

@@ -4,8 +4,6 @@ import by.step.controller.user.UserClientController;
 import by.step.dto.clientDto.ClientDto;
 import by.step.dto.clientDto.ClientDtoWithoutId;
 import by.step.service.user.UserClientService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

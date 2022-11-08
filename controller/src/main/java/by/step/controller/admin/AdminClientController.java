@@ -18,10 +18,6 @@ import javax.validation.constraints.Positive;
 @Tag(name = "Client menu")
 public interface AdminClientController extends BaseAdminController<ClientDtoWithId> {
 
-    @Operation(summary = "Найти клиента по Id", description = "Выводит клиента, соответствующего заданному Id")
-    @GetMapping("/findById")
-    ClientPhoneDto findOneById(@NotNull @Positive @RequestParam Long id);
-
     @Operation(summary = "Получить количество всех клиентов", description = "Выводит количество всех клиентов")
     @GetMapping("/amountClients")
     Long getAmountClients();

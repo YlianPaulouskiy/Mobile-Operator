@@ -21,10 +21,6 @@ import java.util.List;
 @Tag(name = "Phone menu")
 public interface AdminPhoneController extends BaseAdminController<PhoneClientDto> {
 
-    @Operation(summary = "Найти телефон по Id", description = "Выводит данные о телефоне с заданным Id")
-    @GetMapping("/findById")
-    PhoneClientDto findOneById(@NotNull @Positive @RequestParam Long id);
-
     @Operation(summary = "Добавить клиента к телефону", description = "Привязывает клиента к телефону, " +
             "если он до этого момента не был привязан, при этом клиент задается при помощи Id")
     @PutMapping("/addClientById")

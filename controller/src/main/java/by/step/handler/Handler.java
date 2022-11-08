@@ -1,6 +1,8 @@
 package by.step.handler;
 
 import by.step.service.exception.EntityNotCorrectException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,9 +18,12 @@ import java.time.Instant;
 @RestControllerAdvice
 public class Handler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Handler.class);
+
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
     public ErrorDetails handleEntityNotFound(EntityNotFoundException exception) {
+        LOGGER.warn(exception.getMessage());
         return ErrorDetails.builder()
                 .timestamp(Date.from(Instant.now()))
                 .message(exception.getMessage())
@@ -31,6 +36,7 @@ public class Handler {
     @ExceptionHandler(EntityExistsException.class)
     @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
     public ErrorDetails handleEntityExist(EntityExistsException exception) {
+        LOGGER.warn(exception.getMessage());
         return ErrorDetails.builder()
                 .timestamp(Date.from(Instant.now()))
                 .message(exception.getMessage())
@@ -43,6 +49,7 @@ public class Handler {
     @ExceptionHandler(EntityNotCorrectException.class)
     @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
     public ErrorDetails handleEntityNotCorrect(EntityNotCorrectException exception) {
+        LOGGER.warn(exception.getMessage());
         return ErrorDetails.builder()
                 .timestamp(Date.from(Instant.now()))
                 .message(exception.getMessage())
@@ -55,6 +62,7 @@ public class Handler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDetails incorrectInputDataDtoException(MethodArgumentNotValidException exception) {
+        LOGGER.warn(exception.getMessage());
         return ErrorDetails.builder()
                 .timestamp(Date.from(Instant.now()))
                 .message(exception.getMessage().substring(exception.getMessage().lastIndexOf("[")))
@@ -67,6 +75,7 @@ public class Handler {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDetails incorrectInputDataException(ConstraintViolationException exception) {
+        LOGGER.warn(exception.getMessage());
         return ErrorDetails.builder()
                 .timestamp(Date.from(Instant.now()))
                 .message(exception.getMessage())
