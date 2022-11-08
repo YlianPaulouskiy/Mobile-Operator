@@ -10,4 +10,4 @@
 4. Controller;
 5. App;
 ### Technologies
-Spring Boot Web, Data JPA, Security, MySQL, Lombok, Maven, MapStruct, JUnit, SpringDoc OpenAPI UI.
+Spring Boot Web, Data JPA, Security, MySQL, Lombok, Maven, MapStruct, JUnit, SpringDoc OpenAPI UI, Log4j2, AOP.
